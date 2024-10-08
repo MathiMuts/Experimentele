@@ -1,0 +1,13 @@
+- Alles wat moet aangepast worden direct veranderen
+- Alle figuren checken + zeker symbolen
+- Alle getallen met eenheid checken op SI-notatie
+- Is elke referentie correct?
+- IS de onzekerheid bij elk getal correct?
+- Is elk symbool eerst geïntroduceerd?
+
+-Figuur:
+	-Caption onder de figuur
+
+-Tabal:
+	-Caption boven de tabel
+	-Tabel onderaan de bladzijde
