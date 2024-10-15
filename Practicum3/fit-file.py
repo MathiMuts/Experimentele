@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import chi2 as chi_2_sci
 
 
-def X_sq(data, param_names, initial_guess, model, root_attempts=None):
+def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True, datafile=None):
     """
     INFO: Processes input data to separate values and their associated errors.
 
@@ -148,7 +148,7 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None):
 
         axs[index].plot(chi_x, chi_y, label=r"$\chi^2$" + f" curve for {param}")
         axs[index].axhline(y=lijn_y, color='black', linestyle='--', label=r"$\chi^2_{\text{min}} + \text{ppf}(0.68)$")
-        axs[index].scatter([sigma_L, sigma_R], [lijn_y, lijn_y], color='red', zorder=5, label='Intersections')
+        axs[index].scatter([sigma_L, sigma_R], [lijn_y, lijn_y], color='black', zorder=5, label='Intersections')
         
         # Set subplot labels and titles
         axs[index].set_xlabel(f'{param}')
@@ -190,26 +190,33 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None):
     '''
     INFO: EXECUTE!
     '''
-    print('---------START---------')
+    print('\n---------START--------------------------------------------------------------------------------------------------')
+    if datafile:
+        print(datafile)
+        print('----------------------------------------------------------------------------------------------------------------')
     # INFO: calculate minimum
     x, y, dx, dy = process_data(data)
     initial_guess = init(initial_guess, param_names)
     optimised, X_min, vaste_waarden = optimise(minimize(chi2, initial_guess, args=(x, y, dy)))
-    plot_fit(x, y, dx, dy)
+    if PLOT:
+        plot_fit(x, y, dx, dy)
     # INFO: analysis of minima
     lijn_y = X_min + chi_2_sci.ppf(0.68, df=len(param_names)) # Chi-squared threshold (68% confidence level)
-    fig, axs, num_params, num_rows, num_cols = init_fig()
+    if PLOT:
+        fig, axs, num_params, num_rows, num_cols = init_fig()
     
     for param, index in zip(param_names, range(len(param_names))):
         try:
             sigma_L, sigma_R = find_sigmas(objective, vaste_waarden, index, root_attempts)
-            print(f"For parameter {param}:\t68% CI = [{sigma_L}, {sigma_R}] \tMinimum at {vaste_waarden[index]}")
-            add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y)
+            #print(f"For parameter {param}:\tMinimum at {vaste_waarden[index]} \t68% CI = [{sigma_L}, {sigma_R}]")
+            print(f"For parameter {param:<8} :     Minimum at {vaste_waarden[index]:>16.8f}     ;     68% CI = [{sigma_L:>16.8f}, {sigma_R:>16.8f}]")
+            if PLOT:
+                add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y)
         except ValueError as e:
             print(f"Failed to find root for parameter {param}: {str(e)}")
-            
-    finish_fig(num_params, num_rows, num_cols)
-    print('----------END----------')
+    if PLOT: 
+        finish_fig(num_params, num_rows, num_cols)
+    print('----------END---------------------------------------------------------------------------------------------------\n')
 
 
 #NOTE: model setup
@@ -264,16 +271,16 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None):
             return (c/np.pi)*(b/((x-a)**2 + b**2))+d
     """
 param_names = ['x0', 'gamma', 'A', 'y0']
-initial_guess = [0.01, 3, 900, 100, 0]
+initial_guess = [0.01, 3, 900, 100]
 def model(params, x):
     a, b, c, d = params
     return (c/np.pi)*(b/((x-a)**2 + b**2))+d
 
 # NOTE: data load
-data = np.loadtxt("Datasets_fitopdracht/4.txt").T
-x = data[0]
-y = data[1]
-# x, dx = data[0], data[1]
-# y, dy = data[2], data[3]
-data = (x), (y ,np.sqrt(y))
-X_sq(data, param_names, initial_guess, model)
+for i in range(20):
+    file = f"Datasets_fitopdracht/{i+1}.txt"
+    data = np.loadtxt(file).T
+    x = data[0]
+    y = data[1]
+    data = (x), (y ,np.sqrt(y))
+    X_sq(data, param_names, initial_guess, model, PLOT=False, datafile=file)
