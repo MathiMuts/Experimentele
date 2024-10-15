@@ -4,63 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import chi2 as chi_2_sci
 
 
-def X_sq(data):
-    """
-    --------------
-    INFO: Defines a mathematical model that takes input parameters and returns values based on the given data points `x`.
-    --------------
-
-        You can customize the model and its parameters to suit your specific equation by adjusting:
-        - `param_names`: The list of parameter names corresponding to the model.
-        - `initial_guess`: The initial guesses for the parameter values, which can be used for optimization.
-        - The actual `model()` function itself to reflect your desired mathematical relationship.
-
-        Parameters:
-        -----------
-        params : list or array-like
-            A list or array containing the parameter values used in the model.
-            
-        x : array-like
-            The independent variable, typically an array of values, where the model is evaluated.
-
-        Returns:
-        --------
-        y : array-like
-            The computed dependent variable values based on the model equation.
-
-    --------------
-    TODO: Customization:
-    --------------
-        1. **param_names**: Update this list to match the parameters used in your model equation.
-        - Example: `param_names = ['a', 'b', 'c', 'd']` for a model with four parameters.
-
-        2. **initial_guess**: Set the initial guesses for your parameters.
-        - Example: `initial_guess = [1, 0.5, 2, -1]` for a four-parameter model.
-
-        3. **model() function**: Modify the mathematical relationship within the `model()` function to match your desired model.
-        - Example: For a model `y = a * sin(b * x) + c * x + d`, you would:
-            - Update `param_names` to `['a', 'b', 'c', 'd']`
-            - Modify the `model()` function to:
-            ```python
-            def model(params, x):
-                a, b, c, d = params
-                return a * np.sin(b * x) + c * x + d
-            ```
-    --------------
-    NOTE: Example:
-    --------------
-        param_names = ['a', 'b']
-        initial_guess = [1, 1]
-        def model(params, x):
-            a, b = params
-            return a*x + b
-    """
-    param_names = ['a', 'b', 'c', 'd']
-    initial_guess = [1, 1, 1, 1]
-    def model(params, x):
-        a, b, c, d = params
-        return a*np.sin(b*x+c) + d
-
+def X_sq(data, param_names, initial_guess, model, root_attempts=None):
     """
     INFO: Processes input data to separate values and their associated errors.
 
@@ -102,15 +46,17 @@ def X_sq(data):
                     raise ValueError(f"Element {i} in data must be a tuple of two NumPy arrays.")
                 if i == 0:
                     x, dx = element
+                    dx = np.abs(dx)
                 elif i == 1:
                     y, dy = element
+                    dy = np.abs(dy)
             elif isinstance(element, np.ndarray):
                 if i == 0:
                     x = element
-                    dx = x*0.01
+                    dx = np.abs(x*0.01)
                 elif i == 1:
                     y = element
-                    dy = y*0.01
+                    dy = np.abs(y*0.01)
             else:
                 raise ValueError(f"Element {i} must be either a tuple of two NumPy arrays or a single NumPy array.")
             
@@ -212,7 +158,7 @@ def X_sq(data):
         return axs
 
     # Define a helper function to find root by expanding the bracket
-    def find_root_in_bracket(objective_func, initial_bracket, expand_limit=20):
+    def find_root_in_bracket(objective_func, initial_bracket, expand_limit, expand_amount, L=False, R=False):
         a, b = initial_bracket
         # Try to find the root in the initial bracket
         try:
@@ -220,18 +166,24 @@ def X_sq(data):
         except ValueError:
             # Expand the bracket if necessary
             for _ in range(expand_limit):
-                a -= 1  # Expand left
-                b += 1  # Expand right
+                if L:
+                    a -= expand_amount
+                elif R:
+                    b += expand_amount
                 try:
                     return root_scalar(objective_func, bracket=[a, b], method='brentq')
                 except ValueError:
                     continue
-            raise ValueError("Could not find root after expanding the bracket")
+            raise ValueError(f"Could not find root after expanding the bracket to [{a}, {b}]\nOptimised parameter was around {vaste_waarden[index]}")
             
 
-    def find_sigmas(objective, vaste_waarden, index):
-                sol_left = find_root_in_bracket(objective, [vaste_waarden[index] - 5, vaste_waarden[index]])
-                sol_right = find_root_in_bracket(objective, [vaste_waarden[index], vaste_waarden[index] + 5])
+    def find_sigmas(objective, vaste_waarden, index, root_attempts):
+                if root_attempts:
+                    root_attempts = root_attempts*10
+                else:
+                    root_attempts = 1000
+                sol_left = find_root_in_bracket(objective, [vaste_waarden[index]*0.9, vaste_waarden[index]], root_attempts, vaste_waarden[index]*0.1, L=True)
+                sol_right = find_root_in_bracket(objective, [vaste_waarden[index], vaste_waarden[index]*1.1], root_attempts, vaste_waarden[index]*0.1, R=True)
                 return sol_left.root, sol_right.root
     
 
@@ -250,8 +202,8 @@ def X_sq(data):
     
     for param, index in zip(param_names, range(len(param_names))):
         try:
-            sigma_L, sigma_R = find_sigmas(objective, vaste_waarden, index)
-            print(f"For parameter {param}: 68% CI =  [{sigma_L}, {sigma_R}] , centered at {vaste_waarden[index]}")
+            sigma_L, sigma_R = find_sigmas(objective, vaste_waarden, index, root_attempts)
+            print(f"For parameter {param}:\t68% CI = [{sigma_L}, {sigma_R}] \tMinimum at {vaste_waarden[index]}")
             add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y)
         except ValueError as e:
             print(f"Failed to find root for parameter {param}: {str(e)}")
@@ -260,8 +212,68 @@ def X_sq(data):
     print('----------END----------')
 
 
-data = np.loadtxt("kirchhoff_demo.dat", delimiter=",").T
-I, dI = data[0], data[1]
-V, dV = data[2], data[3]
-data = (I, dI), (V, dV)
-X_sq(data)
+#NOTE: model setup
+"""
+    --------------
+    INFO: Defines a mathematical model that takes input parameters and returns values based on the given data points `x`.
+    --------------
+
+        You can customize the model and its parameters to suit your specific equation by adjusting:
+        - `param_names`: The list of parameter names corresponding to the model.
+        - `initial_guess`: The initial guesses for the parameter values, which can be used for optimization.
+        - The actual `model()` function itself to reflect your desired mathematical relationship.
+
+        Parameters:
+        -----------
+        params : list or array-like
+            A list or array containing the parameter values used in the model.
+            
+        x : array-like
+            The independent variable, typically an array of values, where the model is evaluated.
+
+        Returns:
+        --------
+        y : array-like
+            The computed dependent variable values based on the model equation.
+
+    --------------
+    TODO: Customization:
+    --------------
+        1. **param_names**: Update this list to match the parameters used in your model equation.
+        - Example: `param_names = ['a', 'b', 'c', 'd']` for a model with four parameters.
+
+        2. **initial_guess**: Set the initial guesses for your parameters.
+        - Example: `initial_guess = [1, 0.5, 2, -1]` for a four-parameter model.
+
+        3. **model() function**: Modify the mathematical relationship within the `model()` function to match your desired model.
+        - Example: For a model `y = a * sin(b * x) + c * x + d`, you would:
+            - Update `param_names` to `['a', 'b', 'c', 'd']`
+            - Modify the `model()` function to:
+            ```python
+            def model(params, x):
+                a, b, c, d = params
+                return a * np.sin(b * x) + c * x + d
+            ```
+    --------------
+    NOTE: Example:
+    --------------
+        param_names = ['x0', 'gamma', 'A', 'y0']
+        initial_guess = [0.1, 3, 1000, 100]
+        def model(params, x):
+            a, b, c, d = params
+            return (c/np.pi)*(b/((x-a)**2 + b**2))+d
+    """
+param_names = ['x0', 'gamma', 'A', 'y0']
+initial_guess = [0.01, 3, 900, 100, 0]
+def model(params, x):
+    a, b, c, d = params
+    return (c/np.pi)*(b/((x-a)**2 + b**2))+d
+
+# NOTE: data load
+data = np.loadtxt("Datasets_fitopdracht/4.txt").T
+x = data[0]
+y = data[1]
+# x, dx = data[0], data[1]
+# y, dy = data[2], data[3]
+data = (x), (y ,np.sqrt(y))
+X_sq(data, param_names, initial_guess, model)
