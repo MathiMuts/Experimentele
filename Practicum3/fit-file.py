@@ -10,7 +10,7 @@ def X_sq(data, param_names, initial_guess, model,
         ):
     """
     INFO: Main function to process data, optimize model parameters, and generate
-    Chi-squared plots along with 68% confidence intervals.
+    Chi-squared plots along with 68% confidence intervals and other statistics.
 
     INFO: Parameters:
     ----------
@@ -489,15 +489,18 @@ def X_sq(data, param_names, initial_guess, model,
             The left and right bounds of the confidence interval.
         """
         if root_attempts:
-            root_attempts = root_attempts*10
+            root_attempts = root_attempts*1000
         else:
-            root_attempts = 1000
+            root_attempts = 100000
         sol_left = find_root_in_bracket(objective, [vaste_waarden[index]*0.9, vaste_waarden[index]], root_attempts, vaste_waarden[index]*0.1, param_names, vaste_waarden, L=True)
         sol_right = find_root_in_bracket(objective, [vaste_waarden[index], vaste_waarden[index]*1.1], root_attempts, vaste_waarden[index]*0.1, param_names, vaste_waarden, R=True)
         return sol_left.root, sol_right.root
     
 
     def data_uitleg():
+        '''
+        TODO: Document this function
+        '''
         chi2_minimal_summary = (
             "Interpretation of Minimal Chi-Squared (χ²_minimal):\n"
             "\t1. χ²_minimal is low:\n"
@@ -508,7 +511,7 @@ def X_sq(data, param_names, initial_guess, model,
             "\t     some discrepancies between observed and expected values.\n"
             "\t3. χ²_minimal is high:\n"
             "\t   - Suggests a poor fit of the model to the data;\n"
-            "\t     observed values significantly deviate from expected values.\n"
+            "\t     observed values significantly deviate from expected values."
         )
         chi_squared_summary = (
             "Interpretation of Reduced Chi-Squared (χ²_red):\n"
@@ -519,7 +522,7 @@ def X_sq(data, param_names, initial_guess, model,
             "\t   - Indicates a good fit; the model represents the data well.\n"
             "\t3. χ²_red > 1:\n"
             "\t   - Indicates that the model fits the data worse than expected;\n"
-            "\t     may suggest significant deviations or missing factors.\n"
+            "\t     may suggest significant deviations or missing factors."
         )
         p_value_summary = (
             "Interpretation of p-value using significance level α:\n"
@@ -534,12 +537,14 @@ def X_sq(data, param_names, initial_guess, model,
             "\t     results are statistically significant but with less confidence.\n"
             "\t4. P-value > α:\n"
             "\t   - Strong evidence in favour of the null hypothesis;\n"
-            "\t     results are statistically significant.\n"
+            "\t     results are statistically significant."
         )
 
         print('----------------------------------------------------------------------------------------------------------------')
         print(chi2_minimal_summary)
+        print()
         print(chi_squared_summary)
+        print()
         print(p_value_summary)
         
 
@@ -687,7 +692,7 @@ x = data[0]
 y = data[1]
 data = (x), (y ,np.sqrt(y))
 X_sq(data, param_names, initial_guess, model,
-        root_attempts=1000, datafile=file,
+        root_attempts=None, datafile=file,
         VERBOSE=True,
-        PLOT=False, graf1_title='testtitel', graf1_y_label='een y label', graf1_x_label='een x label'
+        PLOT=True, graf1_title='testtitel', graf1_y_label='een y label', graf1_x_label='een x label'
         )
