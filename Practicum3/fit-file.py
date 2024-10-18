@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 from scipy.stats import chi2 as chi_2_sci
 
 
-def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True, datafile=None):
+def X_sq(data, param_names, initial_guess, model,
+        root_attempts=None, PLOT=True, datafile=None,
+        graf1_title=None, graf1_y_label=None, graf1_x_label=None
+        ):
     """
     INFO: Processes input data to separate values and their associated errors.
 
@@ -86,17 +89,24 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
         return np.sum((y - model(params, x))**2/(dy**2))
 
 
-    def plot_fit(x_val, y_val, dx, dy):
+    def plot_fit(x_val, y_val, dx, dy, title, y_label, x_label):
         model_x = np.linspace(0.9*np.min(x_val), 1.1*np.max(x_val), 120)
         model_y = np.array([])
         for x in model_x:
             model_y = np.array(list(model_y) + [model(vaste_waarden, x)])
         fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
 
-        ax.errorbar(x_val, y_val, xerr=dx, yerr=dy, label="data",
+        ax.errorbar(x_val, y_val, xerr=dx, yerr=dy, label="datapunten",
                 marker="o", markersize=4, fmt=" ", color="black", ecolor="black", capsize=2, capthick=0.6, linewidth=0.6)
         plt.plot(model_x, model_y)
-        
+
+        if y_label:
+            ax.set_ylabel(y_label)
+        if x_label:
+            ax.set_xlabel(x_label)
+        if title:
+            ax.set_title(title)
+        ax.legend()  
         plt.tight_layout() ; plt.show()
 
 
@@ -139,7 +149,7 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
         return chi2_val - lijn_y
 
 
-    def add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y):
+    def add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y, x):
         chi_x = np.linspace(
             vaste_waarden[index] - 1.4*np.abs(vaste_waarden[index] - sigma_L),
             vaste_waarden[index] + 1.4*np.abs(vaste_waarden[index] - sigma_R),
@@ -149,6 +159,8 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
         axs[index].plot(chi_x, chi_y, label=r"$\chi^2$" + f" curve for {param}")
         axs[index].axhline(y=lijn_y, color='black', linestyle='--', label=r"$\chi^2_{\text{min}} + \text{ppf}(0.68)$")
         axs[index].scatter([sigma_L, sigma_R], [lijn_y, lijn_y], color='black', zorder=5, label='Intersections')
+        axs[index].scatter([vaste_waarden[index]], [chi2_adjusted(vaste_waarden[index], index, vaste_waarden.copy(), x)],
+            color='royalblue', zorder=5, label='mimimum')
         
         # Set subplot labels and titles
         axs[index].set_xlabel(f'{param}')
@@ -158,7 +170,7 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
         return axs
 
     # Define a helper function to find root by expanding the bracket
-    def find_root_in_bracket(objective_func, initial_bracket, expand_limit, expand_amount, L=False, R=False):
+    def find_root_in_bracket(objective_func, initial_bracket, expand_limit, expand_amount, vaste_waarden, L=False, R=False):
         a, b = initial_bracket
         # Try to find the root in the initial bracket
         try:
@@ -182,8 +194,8 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
                     root_attempts = root_attempts*10
                 else:
                     root_attempts = 1000
-                sol_left = find_root_in_bracket(objective, [vaste_waarden[index]*0.9, vaste_waarden[index]], root_attempts, vaste_waarden[index]*0.1, L=True)
-                sol_right = find_root_in_bracket(objective, [vaste_waarden[index], vaste_waarden[index]*1.1], root_attempts, vaste_waarden[index]*0.1, R=True)
+                sol_left = find_root_in_bracket(objective, [vaste_waarden[index]*0.9, vaste_waarden[index]], root_attempts, vaste_waarden[index]*0.1, vaste_waarden, L=True)
+                sol_right = find_root_in_bracket(objective, [vaste_waarden[index], vaste_waarden[index]*1.1], root_attempts, vaste_waarden[index]*0.1, vaste_waarden, R=True)
                 return sol_left.root, sol_right.root
     
 
@@ -199,7 +211,7 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
     initial_guess = init(initial_guess, param_names)
     optimised, X_min, vaste_waarden = optimise(minimize(chi2, initial_guess, args=(x, y, dy)))
     if PLOT:
-        plot_fit(x, y, dx, dy)
+        plot_fit(x, y, dx, dy, graf1_title, graf1_y_label, graf1_x_label)
     # INFO: analysis of minima
     lijn_y = X_min + chi_2_sci.ppf(0.68, df=len(param_names)) # Chi-squared threshold (68% confidence level)
     if PLOT:
@@ -211,7 +223,7 @@ def X_sq(data, param_names, initial_guess, model, root_attempts=None, PLOT=True,
             #print(f"For parameter {param}:\tMinimum at {vaste_waarden[index]} \t68% CI = [{sigma_L}, {sigma_R}]")
             print(f"For parameter {param:<8} :     Minimum at {vaste_waarden[index]:>16.8f}     ;     68% CI = [{sigma_L:>16.8f}, {sigma_R:>16.8f}]")
             if PLOT:
-                add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y)
+                add_subplot(axs, vaste_waarden, index, param, sigma_L, sigma_R, lijn_y, x)
         except ValueError as e:
             print(f"Failed to find root for parameter {param}: {str(e)}")
     if PLOT: 
@@ -277,10 +289,14 @@ def model(params, x):
     return (c/np.pi)*(b/((x-a)**2 + b**2))+d
 
 # NOTE: data load
-for i in range(20):
-    file = f"Datasets_fitopdracht/{i+1}.txt"
-    data = np.loadtxt(file).T
-    x = data[0]
-    y = data[1]
-    data = (x), (y ,np.sqrt(y))
-    X_sq(data, param_names, initial_guess, model, PLOT=False, datafile=file)
+#for i in range(20):
+file = f"Datasets_fitopdracht/{4}.txt"
+data = np.loadtxt(file).T
+x = data[0]
+y = data[1]
+data = (x), (y ,np.sqrt(y))
+# X_sq(data, param_names, initial_guess, model, PLOT=True, datafile=file)
+X_sq(data, param_names, initial_guess, model,
+        root_attempts=None, PLOT=True, datafile=file,
+        graf1_title='testtitel', graf1_y_label='een y label', graf1_x_label='een x label'
+        )
