@@ -681,9 +681,11 @@ NOTE: Example:
 """
 param_names = ['x0', 'gamma', 'A', 'y0']
 initial_guess = [0.01, 3, 900, 100]
+
 def model(params, x):
     a, b, c, d = params
     return (c/np.pi)*(b/((x-a)**2 + b**2))+d
+
 
 # NOTE: data load and call fit-function
 file = f"Datasets_fitopdracht/{20}.txt"
