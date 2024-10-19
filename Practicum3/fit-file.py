@@ -5,10 +5,13 @@ from scipy.stats import chi2 as chi_2_sci
 
 # WARNING: DO NOT EDIT THIS FUNCTION (if not needed), LOOK BELOW FOR USAGE INSTRUCTIONS AND CUSTOMISATION
 def X_sq(data, param_names, initial_guess, model,
-        root_attempts=None, PLOT=True, datafile=None, VERBOSE=False,
+        root_attempts=None, PLOT=True, datafile=None, VERBOSE=False, LaTeX=False,
         graf1_title=None, graf1_y_label=None, graf1_x_label=None
         ):
     """
+    INFO: made by @MathiMuts
+    visit: [https://github.com/MathiMuts/Experimentele/tree/main/Practicum3] for the repo on github
+    ----------
     INFO: Main function to process data, optimize model parameters, and generate
     Chi-squared plots along with 68% confidence intervals and other statistics.
 
@@ -28,6 +31,10 @@ def X_sq(data, param_names, initial_guess, model,
         If True, generate plots (default: True).
     datafile : str, optional
         Name of the data file (default: None).
+    VERBOSE : bool, optional
+        If True, generate interpretation for some statistics (default: False).
+    LaTeX : bool, optional
+        If True, generate the LaTeX string for the parameters (default: False).
     graf1_title : str, optional
         Title of the first graph (default: None).
     graf1_y_label : str, optional
@@ -494,13 +501,22 @@ def X_sq(data, param_names, initial_guess, model,
             root_attempts = 100000
         sol_left = find_root_in_bracket(objective, [vaste_waarden[index]*0.9, vaste_waarden[index]], root_attempts, vaste_waarden[index]*0.1, param_names, vaste_waarden, L=True)
         sol_right = find_root_in_bracket(objective, [vaste_waarden[index], vaste_waarden[index]*1.1], root_attempts, vaste_waarden[index]*0.1, param_names, vaste_waarden, R=True)
+        if sol_left.root > sol_right.root:
+            sol_left, sol_right = sol_right, sol_left
         return sol_left.root, sol_right.root
     
 
     def data_uitleg():
-        '''
-        TODO: Document this function
-        '''
+        """
+        INFO: Provides summaries for interpreting different statistical measures, including:
+        - Minimal Chi-Squared (χ²_minimal)
+        - Reduced Chi-Squared (χ²_red)
+        - p-value in hypothesis testing
+
+        The function contains pre-defined summaries that explain the possible outcomes and interpretations of these statistics in a clear, step-by-step manner. 
+        
+        Each summary categorizes the measure into different ranges and describes the implications for each range.
+        """
         chi2_minimal_summary = (
             "Interpretation of Minimal Chi-Squared (χ²_minimal):\n"
             "\t1. χ²_minimal is low:\n"
@@ -547,6 +563,43 @@ def X_sq(data, param_names, initial_guess, model,
         print()
         print(p_value_summary)
         
+    
+    def print_LaTeX(vaste_waarden, sigma_L_list, sigma_R_list, param_names):
+        """
+        INFO: Prints the values of parameters and their associated errors in LaTeX format.
+
+        INFO: Parameters:
+        ----------
+        vaste_waarden : list or array-like
+            The list of optimized parameter values.
+        sigma_L_list : list or array-like
+            The list of lower bounds (left errors) for each parameter.
+        sigma_R_list : list or array-like
+            The list of upper bounds (right errors) for each parameter.
+        param_names : list
+            The names of the parameters.
+
+        INFO: Prints:
+        -------
+        LaTeX-formatted strings:
+            Prints the parameter names, values, and error bounds formatted for use in LaTeX.
+            Depending on whether the errors are symmetric or asymmetric, the format will vary.
+        """
+        print('----------------------------------------------------------------------------------------------------------------')
+        for param, index in zip(param_names, range(len(vaste_waarden))):
+        # Loop through each parameter and its corresponding values (optimized values and error bounds)
+
+            # Check if the error bounds are symmetric (if the difference between upper and lower error bounds is less than 1% of the lower bound)
+            if sigma_R_list[index] - sigma_L_list[index] < 0.01* sigma_L_list[index]:
+                sigma = (sigma_L_list[index] + sigma_R_list[index])/2
+                # If the errors are symmetric, calculate the average of the left and right errors
+
+                print(f"For parameter {param:<8} :     $ {vaste_waarden[index]:>8.3f}" + r" \pm " + f"{sigma:>8.3f} $")
+                # Print the parameter with its value and symmetric error in LaTeX format
+
+            else:
+                print(f"For parameter {param:<8} :     $ {vaste_waarden[index]:>8.3f}" + "_{-" + f"{sigma_L_list[index]:>8.3f}" + "}^{+" + f"{sigma_R_list[index]:>8.3f}" + "} $")
+                # If the errors are not symmetric, print them as separate upper and lower bounds in LaTeX format
 
 
 
@@ -585,9 +638,12 @@ def X_sq(data, param_names, initial_guess, model,
         # Initialize a figure with subplots for displaying chi-squared curves if plotting is enabled
     
     # Loop through each parameter to analyze and print the 68% confidence intervals
+    sigma_L_storage, sigma_R_storage = [], []
     for param, index in zip(param_names, range(len(param_names))):
         try:
             sigma_L, sigma_R = find_sigmas(objective, vaste_waarden, index, root_attempts, param_names)
+            sigma_L_storage.append(np.abs(sigma_L - vaste_waarden[index]))
+            sigma_R_storage.append(np.abs(sigma_R - vaste_waarden[index]))
             # Calculate the left and right bounds (68% confidence intervals) for the current parameter
 
             print(f"For parameter {param:<8} :     Minimum at {vaste_waarden[index]:>16.8f}     ;     68% CI = [{sigma_L:>16.8f}, {sigma_R:>16.8f}]")
@@ -615,6 +671,10 @@ def X_sq(data, param_names, initial_guess, model,
         finish_fig(num_params, num_rows, num_cols)
         # If plotting is enabled, finalize the figure by removing unused subplots and tightening the layout
 
+    if LaTeX:
+        print_LaTeX(vaste_waarden, sigma_L_storage, sigma_R_storage, param_names)
+        # If asked for the LaTeX code, this function will spit out all the LaTeX code for the parameters
+
     if VERBOSE:
         data_uitleg()
         # If asked for data explaination, this function is called, which just spits out an insane amount of text and usefull info
@@ -628,7 +688,7 @@ def X_sq(data, param_names, initial_guess, model,
     print('----------END---------------------------------------------------------------------------------------------------\n')
 
 
-# INFO: How to use this function in commentblock below
+# INFO: How to CUSTOMISE this function in commentblock below
 """
 --------------
 INFO: Defines a mathematical model that takes input parameters and returns values based on the given data points `x`.
@@ -688,13 +748,34 @@ def model(params, x):
 
 
 # NOTE: data load and call fit-function
-file = f"Datasets_fitopdracht/{20}.txt"
+file = f"Datasets_fitopdracht/{4}.txt"
 data = np.loadtxt(file).T
 x = data[0]
 y = data[1]
 data = (x), (y ,np.sqrt(y))
+# INFO: All flags in comment block below
+'''
+INFO: These are all the OPTIONAL flags for the function:
+data :
+    root_attempts : int, optional
+        Number of attempts to find the roots (default: None).
+    PLOT : bool, optional
+        If True, generate plots (default: True).
+    datafile : str, optional
+        Name of the data file (default: None).
+    VERBOSE : bool, optional
+        If True, generate interpretation for some statistics (default: False).
+    LaTeX : bool, optional
+        If True, generate the LaTeX string for the parameters (default: False).
+    graf1_title : str, optional
+        Title of the first graph (default: None).
+    graf1_y_label : str, optional
+        Y-axis label for the first graph (default: None).
+    graf1_x_label : str, optional
+        X-axis label for the first graph (default: None).
+'''
 X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=file,
-        VERBOSE=True,
-        PLOT=True, graf1_title='testtitel', graf1_y_label='een y label', graf1_x_label='een x label'
+        VERBOSE=True, LaTeX=True,
+        PLOT=True, graf1_title='Fit and datapoints', graf1_y_label=r'$I$ [arb. eenh.]', graf1_x_label=r'$x$ [mm]'
         )
