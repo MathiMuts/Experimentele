@@ -1,0 +1,48 @@
+---------START--------------------------------------------------------------------------------------------------
+data.txt
+----------------------------------------------------------------------------------------------------------------
+For parameter B*10^6   :     Minimum at       0.40979600     ;     68% CI = [      0.40909476,       0.41049726]
+For parameter C        :     Minimum at     171.89050615     ;     68% CI = [    171.88547419,     171.89553814]
+----------------------------------------------------------------------------------------------------------------
+Minimal χ² value       :     χ²_min         247.24769819
+Reduced χ² value       :     χ²_red           7.27199112
+P-value                :     p-value          0.00000000
+----------------------------------------------------------------------------------------------------------------
+For parameter B*10^6   :     $    0.410 \pm    0.001 $
+For parameter C        :     $  171.891 \pm    0.005 $
+----------------------------------------------------------------------------------------------------------------
+Interpretation of Minimal Chi-Squared (χ²_minimal):
+        1. χ²_minimal is low:
+           - Suggests a good fit of the model to the data;
+             observed values closely match expected values.
+        2. χ²_minimal is moderate:
+           - Indicates a reasonable fit;
+             some discrepancies between observed and expected values.
+        3. χ²_minimal is high:
+           - Suggests a poor fit of the model to the data;
+             observed values significantly deviate from expected values.
+
+Interpretation of Reduced Chi-Squared (χ²_red):
+        1. χ²_red < 1:
+           - Indicates that the model fits the data better than expected;
+             may suggest overfitting or underestimated uncertainties.
+        2. χ²_red ≈ 1:
+           - Indicates a good fit; the model represents the data well.
+        3. χ²_red > 1:
+           - Indicates that the model fits the data worse than expected;
+             may suggest significant deviations or missing factors.
+
+Interpretation of p-value using significance level α:
+        1. P-value < α:
+           - Weak or no evidence in favour of the null hypothesis;
+             results are not statistically significant.
+        2. P-value <≈ α:
+           - Weak evidence against the null hypothesis;
+             results may indicate a trend but are not statistically significant.
+        3. P-value >≈ α:
+           - Moderate evidence in favour of the null hypothesis;
+             results are statistically significant but with less confidence.
+        4. P-value > α:
+           - Strong evidence in favour of the null hypothesis;
+             results are statistically significant.
+----------END---------------------------------------------------------------------------------------------------
