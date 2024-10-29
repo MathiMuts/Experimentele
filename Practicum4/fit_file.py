@@ -357,6 +357,7 @@ def X_sq(data, param_names, initial_guess, model,
 
         chi_red = value/(len(x)-len(param_names))
         p_value = chi_2_sci.sf(value, (len(x)-len(param_names)))
+        print(p_value)
         return value, chi_red, p_value
 
 
@@ -594,11 +595,11 @@ def X_sq(data, param_names, initial_guess, model,
                 sigma = (sigma_L_list[index] + sigma_R_list[index])/2
                 # If the errors are symmetric, calculate the average of the left and right errors
 
-                print(f"For parameter {param:<8} :     $ {vaste_waarden[index]:>8.3f}" + r" \pm " + f"{sigma:>8.3f} $")
+                print(f"For parameter {param:<8} :     $ {vaste_waarden[index]:>10.5f}" + r" \pm " + f"{sigma:>10.5f} $")
                 # Print the parameter with its value and symmetric error in LaTeX format
 
             else:
-                print(f"For parameter {param:<8} :     $ {vaste_waarden[index]:>8.3f}" + "_{-" + f"{sigma_L_list[index]:>8.3f}" + "}^{+" + f"{sigma_R_list[index]:>8.3f}" + "} $")
+                print(f"For parameter {param:<8} :     $ {vaste_waarden[index]:>10.5f}" + "_{-" + f"{sigma_L_list[index]:>10.5f}" + "}^{+" + f"{sigma_R_list[index]:>10.5f}" + "} $")
                 # If the errors are not symmetric, print them as separate upper and lower bounds in LaTeX format
 
 
