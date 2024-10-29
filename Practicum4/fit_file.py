@@ -739,12 +739,12 @@ NOTE: Example:
         a, b, c, d = params
         return (c/np.pi)*(b/((x-a)**2 + b**2))+d
 """
-param_names = ['B*10^6', 'C']
+param_names = ['B', 'C']
 initial_guess = [1, 1]
 
 def model(params, x):
     B, C = params
-    return C + (B*1000000)/(x**2)
+    return C + (B)*(x)
 
 
 # NOTE: data load and call fit-function
@@ -755,7 +755,8 @@ dx = data[1]
 y = data[2]
 dy = data[3]
 
-data = (x - 125.55), (y ,dy)
+data = (x), (y, dy)
+
 # INFO: All flags in comment block below
 '''
 INFO: These are all the OPTIONAL flags for the function:
@@ -777,8 +778,8 @@ data :
     graf1_x_label : str, optional
         X-axis label for the first graph (default: None).
 '''
-X_sq(data, param_names, initial_guess, model,
-        root_attempts=None, datafile=file,
-        VERBOSE=True, LaTeX=True,
-        PLOT=True, graf1_title='Fit and datapoints', graf1_y_label=r'$I$ [arb. eenh.]', graf1_x_label=r'$x$ [mm]'
-        )
+# X_sq(data, param_names, initial_guess, model,
+#         root_attempts=None, datafile=file,
+#         VERBOSE=False, LaTeX=False,
+#         PLOT=True, graf1_title='Fit and datapoints', graf1_y_label=r'$I$ [arb. eenh.]', graf1_x_label=r'$x$ [mm]'
+#         )
