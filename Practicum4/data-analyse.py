@@ -16,10 +16,9 @@ data = np.loadtxt(file).T
 x = data[0]
 y = data[1]
 
-
 theta0 = 125.55 * np.pi/180
 y = y * np.pi/180
-delta_sys = 0.0006
+delta_sys = 2/60 * np.pi/180
 
 golflengtes = np.unique(x)
 
@@ -31,7 +30,7 @@ for lambda_waarde in golflengtes:
     theta_gem = np.mean(hoeken)
     sigma_s = sem(hoeken)  # standaardfout (op basis van de vier metingen)
     delta_m = theta_gem - theta0
-    sigma_delta_m = np.sqrt(sigma_s**2 + (delta_sys**2) / 12)
+    sigma_delta_m = np.sqrt(sigma_s**2 + (delta_sys**2))
     resultaten.append((lambda_waarde, delta_m, sigma_delta_m))
 
 resultaten = np.array(resultaten)
@@ -40,10 +39,13 @@ d_lambda = np.zeros_like(_lambda)
 z = resultaten[:, 1]
 dz = resultaten[:, 2]
 
-n = np.sin((z+(np.pi/3))/2) / np.sin(np.pi/6)
-dn = np.sqrt(np.cos((z + (np.pi/6))/2)**2 * dz**2)
+a = np.pi/3
+
+n = np.sin((z+a)/2) / np.sin(a/2)
+dn = dz * np.abs( np.cos((z+a)/2)/(2*np.sin(a/2)) )
 
 data = (1/(_lambda**2), d_lambda), (n, dn)
+
 X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=file,
         VERBOSE=True, LaTeX=True,
