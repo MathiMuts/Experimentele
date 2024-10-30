@@ -30,7 +30,7 @@ for lambda_waarde in golflengtes:
     theta_gem = np.mean(hoeken)
     sigma_s = sem(hoeken)  # standaardfout (op basis van de vier metingen)
     delta_m = theta_gem - theta0
-    sigma_delta_m = np.sqrt(sigma_s**2 + (delta_sys**2))
+    sigma_delta_m = np.sqrt(sigma_s**2 + (delta_sys**2)/6)
     resultaten.append((lambda_waarde, delta_m, sigma_delta_m))
 
 resultaten = np.array(resultaten)
@@ -38,16 +38,14 @@ _lambda = resultaten[:, 0]
 d_lambda = np.zeros_like(_lambda)
 z = resultaten[:, 1]
 dz = resultaten[:, 2]
-
 a = np.pi/3
 
 n = np.sin((z+a)/2) / np.sin(a/2)
 dn = dz * np.abs( np.cos((z+a)/2)/(2*np.sin(a/2)) )
-
 data = (1/(_lambda**2), d_lambda), (n, dn)
 
 X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=file,
-        VERBOSE=True, LaTeX=True,
+        VERBOSE=False, LaTeX=False,
         PLOT=True, graf1_title='Fit and datapoints', graf1_y_label=r'$n$ [geen eenh.]', graf1_x_label=r'$1/\lambda^2$ [$nm^{-2}$]'
         )
