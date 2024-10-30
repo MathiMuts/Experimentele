@@ -357,7 +357,6 @@ def X_sq(data, param_names, initial_guess, model,
 
         chi_red = value/(len(x)-len(param_names))
         p_value = chi_2_sci.sf(value, (len(x)-len(param_names)))
-        print(p_value)
         return value, chi_red, p_value
 
 
@@ -740,23 +739,23 @@ NOTE: Example:
         a, b, c, d = params
         return (c/np.pi)*(b/((x-a)**2 + b**2))+d
 """
-param_names = ['B', 'C']
-initial_guess = [1, 1]
+# param_names = ['B', 'C']
+# initial_guess = [1, 1]
 
-def model(params, x):
-    B, C = params
-    return C + (B)*(x)
+# def model(params, x):
+#     B, C = params
+#     return C + (B)*(x)
 
 
-# NOTE: data load and call fit-function
-file = "data.txt"
-data = np.loadtxt(file).T
-x = data[0]
-dx = data[1]
-y = data[2]
-dy = data[3]
+# # NOTE: data load and call fit-function
+# file = "data.txt"
+# data = np.loadtxt(file).T
+# x = data[0]
+# dx = data[1]
+# y = data[2]
+# dy = data[3]
 
-data = (x), (y, dy)
+# data = (x), (y, dy)
 
 # INFO: All flags in comment block below
 '''

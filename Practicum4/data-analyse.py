@@ -14,11 +14,11 @@ def model(params, x):
 file = "data.txt"
 data = np.loadtxt(file).T
 x = data[0]
-dx = data[1]
-y = data[2]
-dy = data[3]
+y = data[1]
 
-theta0 = 125.55
+
+theta0 = 125.55 * np.pi/180
+y = y * np.pi/180
 delta_sys = 0.0006
 
 golflengtes = np.unique(x)
@@ -40,12 +40,12 @@ d_lambda = np.zeros_like(_lambda)
 z = resultaten[:, 1]
 dz = resultaten[:, 2]
 
-n = np.sin((z+60)*np.pi/360) / np.sin(np.pi/3)
-dn = dz*(2/np.sqrt(3)) * np.abs(np.cos((z+60)*np.pi/360)*np.pi/360)
+n = np.sin((z+(np.pi/3))/2) / np.sin(np.pi/3)
+dn = np.sqrt(np.cos((z + (np.pi/3))/2)**2 * dz**2)
 
 data = (1/(_lambda**2), d_lambda), (n, dn)
 X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=file,
-        VERBOSE=False, LaTeX=True,
+        VERBOSE=True, LaTeX=True,
         PLOT=True, graf1_title='Fit and datapoints', graf1_y_label=r'$n$ [geen eenh.]', graf1_x_label=r'$1/\lambda^2$ [$nm^{-2}$]'
         )
