@@ -40,8 +40,8 @@ d_lambda = np.zeros_like(_lambda)
 z = resultaten[:, 1]
 dz = resultaten[:, 2]
 
-n = np.sin((z+(np.pi/3))/2) / np.sin(np.pi/3)
-dn = np.sqrt(np.cos((z + (np.pi/3))/2)**2 * dz**2)
+n = np.sin((z+(np.pi/3))/2) / np.sin(np.pi/6)
+dn = np.sqrt(np.cos((z + (np.pi/6))/2)**2 * dz**2)
 
 data = (1/(_lambda**2), d_lambda), (n, dn)
 X_sq(data, param_names, initial_guess, model,
