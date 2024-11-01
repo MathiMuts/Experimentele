@@ -18,7 +18,7 @@ y = data[1]
 
 theta0 = 125.55 * np.pi/180
 y = y * np.pi/180
-delta_sys = 2/60 * np.pi/180
+delta_sys = 5/60 * np.pi/180
 
 golflengtes = np.unique(x)
 
@@ -46,6 +46,6 @@ data = (1/(_lambda**2), d_lambda), (n, dn)
 
 X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=file,
-        VERBOSE=False, LaTeX=False,
+        VERBOSE=True, LaTeX=True,
         PLOT=True, graf1_title='Fit and datapoints', graf1_y_label=r'$n$ [geen eenh.]', graf1_x_label=r'$1/\lambda^2$ [$nm^{-2}$]'
         )
