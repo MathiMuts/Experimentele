@@ -7,5 +7,15 @@ Als je de code gewoon eens wilt downloaden, dan kan je rechtsboven op de groene 
 Eerst moet je een keer de hele structuur kopieren, dit doe je met: `git clone git@github.com:MathiMuts/Experimentele.git`.
 Dan kan je elke keer als er wijzigingen zijn en je die op uw apparaat wilt volgend comando runnen in die map: `git pull`.
 ### Ik wil mijn wijzigingen online zetten
+Run eerst volgend comando om de huidige files te tracken: `git add -A`
 Run volgende comando om je wijzigingen te bundelen en een tag te geven: `git commit -a -m "__SCHRIJF HIER IETS NUTTIG OVER WAT ER VERANDERD IS__"`
 Tot slot kan je alle bundels die je lokaal hebt pushen naar de server: `git push`
+## Samenvatting
+```
+git pull
+```
+```
+git add -A
+git commit -a -m "__KORTE BESCHRIJVING__"
+git push
+```
