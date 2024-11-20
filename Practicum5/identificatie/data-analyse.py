@@ -1,7 +1,7 @@
 import numpy as np
 
 file_name = 'Pb-1.txt'
-file = f"identificatie/data/{file_name}"
+file = f"Practicum5/identificatie/data/{file_name}"
 
 data = np.loadtxt(file).T
 N = len(data)

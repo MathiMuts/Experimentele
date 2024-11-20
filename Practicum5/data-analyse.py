@@ -2,11 +2,11 @@ from pathlib import Path
 import numpy as np
 from fit_file import X_sq
 
-folder_path = Path("penetration/data/")
+folder_path = Path("Practicum5/penetration/data/")
 
 values = []
 for file_name in [file.name for file in folder_path.iterdir()]:
-    file = f"penetration/data/{file_name}"
+    file = f"Practicum5/penetration/data/{file_name}"
     thickness_value = float(file_name.split("-")[1].replace(".txt", "").replace(",", "."))
 
     data = np.loadtxt(file).T
