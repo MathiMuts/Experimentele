@@ -39,16 +39,17 @@ thicknesses_E = thicknesses_E[sorted_indices]
 intensity = intensity[sorted_indices]
 intensity_E = intensity_E[sorted_indices]
 
-# data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity[:9]), intensity_E[:9]/intensity[:9] ))
+cutoff = 6
+data = ((thicknesses[:cutoff], thicknesses_E[:cutoff]), (np.log(intensity[:cutoff]), intensity_E[:cutoff]/intensity[:cutoff] ))
 
-# X_sq(data, param_names, initial_guess, model,
-#         root_attempts=None, datafile=None,
-#         VERBOSE=False, LaTeX=False,
-#         PLOT=True, graf1_title='Titel', graf1_x_label='Label'
-#         )
+X_sq(data, param_names, initial_guess, model,
+        root_attempts=None, datafile=None,
+        VERBOSE=False, LaTeX=False,
+        PLOT=True, graf1_title='Titel', graf1_x_label='Label'
+        )
 
-
-data = ((thicknesses[9:], thicknesses_E[9:]), (np.log(intensity[9:]), intensity_E[9:]/intensity[9:] ))
+start = 9
+data = ((thicknesses[start:], thicknesses_E[start:]), (np.log(intensity[start:]), intensity_E[start:]/intensity[start:] ))
 
 X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=None,
