@@ -414,7 +414,7 @@ def X_sq(data, param_names, initial_guess, model,
         chi_y = np.array([chi2_adjusted(p, index, vaste_waarden.copy(), x) for p in chi_x])
 
         axs[index].plot(chi_x, chi_y, label=r"$\chi^2$" + f" curve for {param}")
-        axs[index].axhline(y=lijn_y, color='black', linestyle='--', label=r"$\chi^2_{\text{min}} + \text{ppf}(0.68)$")
+        axs[index].axhline(y=lijn_y, color='black', linestyle='--', label=r"$\chi^2_{min} + ppf(0.68)$")
         axs[index].scatter([sigma_L, sigma_R], [lijn_y, lijn_y], color='black', zorder=5, label='Intersections')
         axs[index].scatter([vaste_waarden[index]], [chi2_adjusted(vaste_waarden[index], index, vaste_waarden.copy(), x)],
             color='royalblue', zorder=5, label='mimimum')
