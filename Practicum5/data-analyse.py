@@ -49,14 +49,14 @@ intensity_E = intensity_E[sorted_indices]
 #         )
 
 """ NOTE: Hieronder een fit op de laag energetische straling"""
-cutoff = 6
-data = ((thicknesses[:cutoff], thicknesses_E[:cutoff]), (np.log(intensity[:cutoff]), intensity_E[:cutoff]/intensity[:cutoff] ))
+# cutoff = 6
+# data = ((thicknesses[:cutoff], thicknesses_E[:cutoff]), (np.log(intensity[:cutoff]), intensity_E[:cutoff]/intensity[:cutoff] ))
 
-X_sq(data, param_names, initial_guess, model,
-        root_attempts=None, datafile=None,
-        VERBOSE=False, LaTeX=False,
-        PLOT=True, graf1_title='Titel', graf1_x_label='Label'
-        )
+# X_sq(data, param_names, initial_guess, model,
+#         root_attempts=None, datafile=None,
+#         VERBOSE=False, LaTeX=True,
+#         PLOT=False, graf1_title='Titel', graf1_x_label='Label'
+#         )
 
 """ NOTE: Hieronder een fit op de hoog energetische straling"""
 # start = 9
@@ -65,35 +65,36 @@ X_sq(data, param_names, initial_guess, model,
 # X_sq(data, param_names, initial_guess, model,
 #         root_attempts=None, datafile=None,
 #         VERBOSE=False, LaTeX=True,
-#         PLOT=True, graf1_title='Titel', graf1_x_label='Label'
+#         PLOT=True, graf1_title='Fit voor hoog energetische straling', graf1_x_label='dikte Al [mm]', graf1_y_label='$ln(I) [arb. eenh.]$'
 #         )
 
-""" NOTE: Hieronder eerste deel min hoog energetische straling volgens model"""
-# A = 3.66
-# B = -0.095
-# A_e = 0.03
-# B_e = 0.006
+# """ NOTE: Hieronder eerste deel min hoog energetische straling volgens model"""
+A = 1.358
+B = -0.09
+A_e = 0.03
+B_e = 0.006
 
 
-# intensity_corrected = []
-# for i in range(len(intensity)):
-#     intensity_corrected.append(intensity[i] - np.exp((A + B*thicknesses[i])))
+intensity_corrected = []
+for i in range(len(intensity)):
+    intensity_corrected.append(intensity[i] - np.exp((A + B*thicknesses[i])))
 
-# intensity_corrected_E = []
-# for i in range(len(intensity_corrected)):
-#     intensity_corrected_E.append(np.sqrt(intensity_E[i]**2 + (np.exp((A + B*thicknesses[i])))**2 * A_e**2 + (thicknesses[i]* np.exp((A + B*thicknesses[i])))**2 * B_e**2))
-# intensity_corrected_E = np.array(intensity_corrected_E)
+intensity_corrected_E = []
+for i in range(len(intensity_corrected)):
+    intensity_corrected_E.append(np.sqrt(intensity_E[i]**2 + (np.exp((A + B*thicknesses[i])))**2 * A_e**2 + (thicknesses[i]* np.exp((A + B*thicknesses[i])))**2 * B_e**2))
+intensity_corrected_E = np.array(intensity_corrected_E)
 
-# data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_corrected_E[:9]/intensity_corrected[:9] ))
-# # data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_E[:9]/intensity_corrected[:9] ))
+data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_corrected_E[:9]/intensity_corrected[:9] ))
+# data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_E[:9]/intensity_corrected[:9] ))
 
-# X_sq(data, param_names, initial_guess, model,
-#         root_attempts=None, datafile=None,
-#         VERBOSE=False, LaTeX=False,
-#         PLOT=True, graf1_title='Titel', graf1_x_label='thickness (mm)', graf1_y_label='ln(I)'
-#         )
+X_sq(data, param_names, initial_guess, model,
+        root_attempts=None, datafile=None,
+        VERBOSE=False, LaTeX=True,
+        PLOT=True, graf1_title='Fit op laag energetische straling', graf1_x_label='dikte Al [mm]', graf1_y_label='$ln(I) [arb. eenh.]$'
+        )
 
-""" Hieronder tweede deel min laag energetische straling volgens model"""
+""" WARNING: geen correcte constanten en fout 
+NOTE: Hieronder tweede deel min laag energetische straling volgens model"""
 # A = 3.71603917
 # B = -1.96933049
 
