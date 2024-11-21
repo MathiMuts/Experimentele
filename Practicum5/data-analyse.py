@@ -5,11 +5,12 @@ from fit_file import X_sq
 folder_path = Path("Practicum5/penetration/data/")
 
 values = []
+achtergrond = 3.1
 for file_name in [file.name for file in folder_path.iterdir()]:
     file = f"Practicum5/penetration/data/{file_name}"
     thickness_value = float(file_name.split("-")[1].replace(".txt", "").replace(",", "."))
 
-    data = np.loadtxt(file).T
+    data = (np.loadtxt(file).T-achtergrond)/10
     N = len(data)
 
     gem = np.sum(data)/N
@@ -26,10 +27,9 @@ initial_guess = [1, 1]
 def model(params, x):
     A, B = params
     return A + (B)*(x)
-achtergrond = 3.1
 thicknesses = np.array([value[0] for value in values])
 thicknesses_E = np.zeros(len(thicknesses))
-intensity = np.array([value[1] - achtergrond for value in values])
+intensity = np.array([value[1] for value in values])
 intensity_E = np.array([value[2] for value in values])
 
 sorted_indices = np.argsort(thicknesses)
@@ -49,14 +49,14 @@ intensity_E = intensity_E[sorted_indices]
 #         )
 
 """ NOTE: Hieronder een fit op de laag energetische straling"""
-# cutoff = 6
-# data = ((thicknesses[:cutoff], thicknesses_E[:cutoff]), (np.log(intensity[:cutoff]), intensity_E[:cutoff]/intensity[:cutoff] ))
+cutoff = 6
+data = ((thicknesses[:cutoff], thicknesses_E[:cutoff]), (np.log(intensity[:cutoff]), intensity_E[:cutoff]/intensity[:cutoff] ))
 
-# X_sq(data, param_names, initial_guess, model,
-#         root_attempts=None, datafile=None,
-#         VERBOSE=False, LaTeX=False,
-#         PLOT=False, graf1_title='Titel', graf1_x_label='Label'
-#         )
+X_sq(data, param_names, initial_guess, model,
+        root_attempts=None, datafile=None,
+        VERBOSE=False, LaTeX=False,
+        PLOT=True, graf1_title='Titel', graf1_x_label='Label'
+        )
 
 """ NOTE: Hieronder een fit op de hoog energetische straling"""
 # start = 9
