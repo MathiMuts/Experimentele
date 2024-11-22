@@ -1,5 +1,6 @@
 from pathlib import Path
 import numpy as np
+import matplotlib.pyplot as plt
 from fit_file import X_sq
 
 folder_path = Path("Practicum5/penetration/data/")
@@ -69,29 +70,30 @@ intensity_E = intensity_E[sorted_indices]
 #         )
 
 # """ NOTE: Hieronder eerste deel min hoog energetische straling volgens model"""
-A = 1.358
-B = -0.09
-A_e = 0.03
-B_e = 0.006
+if False:
+    A = 1.358
+    B = -0.09
+    A_e = 0.03
+    B_e = 0.006
 
 
-intensity_corrected = []
-for i in range(len(intensity)):
-    intensity_corrected.append(intensity[i] - np.exp((A + B*thicknesses[i])))
+    intensity_corrected = []
+    for i in range(len(intensity)):
+        intensity_corrected.append(intensity[i] - np.exp((A + B*thicknesses[i])))
 
-intensity_corrected_E = []
-for i in range(len(intensity_corrected)):
-    intensity_corrected_E.append(np.sqrt(intensity_E[i]**2 + (np.exp((A + B*thicknesses[i])))**2 * A_e**2 + (thicknesses[i]* np.exp((A + B*thicknesses[i])))**2 * B_e**2))
-intensity_corrected_E = np.array(intensity_corrected_E)
+    intensity_corrected_E = []
+    for i in range(len(intensity_corrected)):
+        intensity_corrected_E.append(np.sqrt(intensity_E[i]**2 + (np.exp((A + B*thicknesses[i])))**2 * A_e**2 + (thicknesses[i]* np.exp((A + B*thicknesses[i])))**2 * B_e**2))
+    intensity_corrected_E = np.array(intensity_corrected_E)
 
-data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_corrected_E[:9]/intensity_corrected[:9] ))
-# data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_E[:9]/intensity_corrected[:9] ))
+    data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_corrected_E[:9]/intensity_corrected[:9] ))
+    # data = ((thicknesses[:9], thicknesses_E[:9]), (np.log(intensity_corrected[:9]), intensity_E[:9]/intensity_corrected[:9] ))
 
-X_sq(data, param_names, initial_guess, model,
-        root_attempts=None, datafile=None,
-        VERBOSE=False, LaTeX=True,
-        PLOT=True, graf1_title='Fit op laag energetische straling', graf1_x_label='dikte Al [mm]', graf1_y_label='$ln(I) [arb. eenh.]$'
-        )
+    X_sq(data, param_names, initial_guess, model,
+            root_attempts=None, datafile=None,
+            VERBOSE=False, LaTeX=True,
+            PLOT=True, graf1_title='Fit op laag energetische straling', graf1_x_label='dikte Al [mm]', graf1_y_label='$ln(I) [arb. eenh.]$'
+            )
 
 """ WARNING: geen correcte constanten en fout 
 NOTE: Hieronder tweede deel min laag energetische straling volgens model"""
@@ -109,3 +111,34 @@ NOTE: Hieronder tweede deel min laag energetische straling volgens model"""
 #         VERBOSE=False, LaTeX=False,
 #         PLOT=True, graf1_title='Titel', graf1_x_label='thickness (mm)', graf1_y_label='ln(I)'
 #         )
+""" NOTE: mooie grafiek"""
+if True:
+    A = 1.358
+    B = -0.09
+
+    C = np.log(np.exp(1.40) + intensity[0] - np.exp((A + B*thicknesses[0])))
+    D = -1.97
+
+    x, x_E, y, y_E = thicknesses, thicknesses_E, np.log(intensity), intensity_E/intensity 
+    linsp_x = np.linspace(x[0]-0.5, x[-1]+0.5, 200)
+
+    line2 = B * linsp_x + A 
+    line1 = D * linsp_x + C
+
+    plt.errorbar(x, y, yerr=y_E, fmt='o', color='black', label='Datapunten', capsize=4)
+
+    plt.plot(linsp_x, line1, '-', label=r'Lineaire fit op laag-energetische $\gamma$-straling')
+    plt.plot(linsp_x, line2, '--', label=r'Lineaire fit op hoog-energetische $\gamma$-straling')
+
+# Add labels, title, and legend
+    plt.xlabel('dikte Al [mm]')
+    plt.ylabel('$ln(I)$ $[arb. eenh.]$')
+    plt.title(r'Lineaire fits op beide $\gamma$-straling energieën')
+    plt.legend()
+    plt.grid(True)
+    plt.xlim(x[0]-0.5, x[-1]+0.5)
+    plt.ylim(0, y[0]*1.1)
+
+
+# Show the plot
+    plt.show()
