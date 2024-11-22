@@ -41,17 +41,17 @@ intensity = intensity[sorted_indices]
 intensity_E = intensity_E[sorted_indices]
 
 """ NOTE: Hieronder alle data"""
-x, x_E, y, y_E = thicknesses, thicknesses_E, intensity, intensity_E
-plt.errorbar(x, y, yerr=y_E, fmt='o', color='black', label='Datapunten', capsize=4)
+# x, x_E, y, y_E = thicknesses, thicknesses_E, intensity, intensity_E
+# plt.errorbar(x, y, yerr=y_E, fmt='o', color='black', label='Datapunten', capsize=4)
 
-# Add labels, title, and legend
-plt.xlabel('dikte Al [mm]')
-plt.ylabel('$I$ $[arb. eenh.]$')
-plt.title(r'Plot van de $\gamma$-straling in functie van de dikte Al')
-plt.legend()
-plt.grid(True)
+# # Add labels, title, and legend
+# plt.xlabel('dikte Al [mm]')
+# plt.ylabel('$I$ $[arb. eenh.]$')
+# plt.title(r'Plot van de $\gamma$-straling in functie van de dikte Al')
+# plt.legend()
+# plt.grid(True)
 
-plt.show()
+# plt.show()
 
 """ NOTE: Hieronder een fit op de laag energetische straling"""
 # cutoff = 6
@@ -116,7 +116,7 @@ NOTE: Hieronder tweede deel min laag energetische straling volgens model"""
 #         PLOT=True, graf1_title='Titel', graf1_x_label='thickness (mm)', graf1_y_label='ln(I)'
 #         )
 """ NOTE: mooie grafiek"""
-if False:
+if True:
     A = 1.358
     B = -0.09
 
