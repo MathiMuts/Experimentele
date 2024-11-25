@@ -1,0 +1,4 @@
+resonantie: 1.75Hz
+interne wrijving is groot
+frequentiefout is ongeveer \pm 0.01/0.02 -> slechte apparatuur
+fasefout is 5/10 deg
