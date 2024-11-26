@@ -113,7 +113,7 @@ if False:
          VERBOSE=False, LaTeX=True,
          PLOT=True, graf1_title='Fit en data amplitude', graf1_x_label='f [Hz]', graf1_y_label='A [mm]'
         )
-if False:
+if True:
     param_names = ['w', 'm', 'n']
     initial_guess = [1.69, 0.07, 0.006]
 
@@ -126,7 +126,7 @@ if False:
     X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=None,
         VERBOSE=False, LaTeX=True,
-        PLOT=True, graf1_title='', graf1_x_label='', graf1_y_label=''
+        PLOT=True, graf1_title=r'Fit voor $\phi$(f)', graf1_x_label='f [Hz]', graf1_y_label=r'$1/tan(\phi)$ [/]'
         )
 if False:
     param_names = ['w', 'm', 'n']
@@ -143,7 +143,7 @@ if False:
         VERBOSE=False, LaTeX=True,
         PLOT=True, graf1_title='', graf1_x_label='', graf1_y_label=''
         )
-if True:
+if False:
     x, x_E, y, y_E = f, f_E, phi, phi_E
     plt.errorbar(x, y, xerr=x_E, yerr=y_E, fmt='o', color='black', label='Datapunten', capsize=4)
 
@@ -156,7 +156,7 @@ if True:
 
     plt.show()
 
-if True:
+if False:
     x, x_E, y, y_E = f2, f_E2, phi2, phi_E2
     plt.errorbar(x, y, xerr=x_E, yerr=y_E, fmt='o', color='black', label='Datapunten', capsize=4)
 
