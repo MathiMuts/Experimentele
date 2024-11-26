@@ -16,11 +16,11 @@ phi2=file2[2]*np.pi/180
 
 f_E = np.ones_like(f)*0.01
 A_E = np.ones_like(f)*2.5
-phi_E = np.ones_like(f)*5*np.pi/180
+phi_E = np.ones_like(f)*3*np.pi/180
 
 f_E2 = np.ones_like(f2)*0.01
 A_E2 = np.ones_like(f2)*2.5
-phi_E2 = np.ones_like(f2)*5*np.pi/180
+phi_E2 = np.ones_like(f2)*3*np.pi/180
 
 
 if False:
