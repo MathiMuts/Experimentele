@@ -83,7 +83,7 @@ if False:
 
     plt.show()
 # data 2 amplitude fit
-if True:
+if False:
      param_names = ['F', 'w', 'm', 'n']
      initial_guess = [0.1, 0.1, 0.1, 0.1]
 
@@ -96,30 +96,49 @@ if True:
      X_sq(data, param_names, initial_guess, model,
          root_attempts=None, datafile=None,
          VERBOSE=False, LaTeX=True,
-         PLOT=True, graf1_title='Fit en data amplitude', graf1_x_label='f [Hz]', graf1_y_label='A [mm]'
+         PLOT=True, graf1_title='Fit en data amplitude', graf1_x_label=r'$\omega$ [Hz]', graf1_y_label='A [mm]'
         )
+# frequentie fit2 semi lineair
 if False:
-    param_names = ['w', 'm', 'n']
+    param_names = ['w', 'C']
     initial_guess = [1.69, 0.07, 0.006]
 
     def model(params, x):
-        w, m, n = params
-        return (w**2-x**2)/(x*(n/m))
+        w, C = params
+        return (w**2-x**2)/(x*C)
     
-    data = ((f2, f_E2), (1/np.tan(phi2), phi_E2/np.sin(phi2)**2))
+    data = ((f2, np.ones_like(f2)*0), (1/np.tan(phi2), phi_E2/np.sin(phi2)**2))
 
     X_sq(data, param_names, initial_guess, model,
         root_attempts=None, datafile=None,
         VERBOSE=False, LaTeX=True,
         PLOT=True, graf1_title=r'Fit voor $\phi$(f)', graf1_x_label='f [Hz]', graf1_y_label=r'$1/tan(\phi)$ [/]'
         )
-if False:
-    param_names = ['w', 'm', 'n']
-    initial_guess = [1.69, 0.07, 0.006]
+#frequentie fit 2 niet lineair
+if True:
+    param_names = ['w', 'C','S']
+    initial_guess = [0.26, -0.07, 1]
 
     def model(params, x):
-        w, m, n = params
-        return (w**2-x**2)/(x*(n/m))
+        w, C, S= params
+        return S-np.arctan2((x*C),(w**2-x**2))
+    
+    data = ((f, f_E), ((-phi), phi_E))
+
+    X_sq(data, param_names, initial_guess, model,
+        root_attempts=None, datafile=None,
+        VERBOSE=False, LaTeX=True,
+        PLOT=True, graf1_title=r'Fit voor $\phi$(f)', graf1_x_label='f [Hz]', graf1_y_label=r'$(\phi)$ [/]'
+        )
+
+ # frequentie fit1 semi-lineair DEZE IS ASS
+if True:
+    param_names = ['w', 'C']
+    initial_guess = [1.69, 0.006]
+
+    def model(params, x):
+        w, C = params
+        return (w**2-x**2)/(x*C)
     
     data = ((f, f_E), (1/np.tan(phi), phi_E/np.sin(phi)**2))
 
