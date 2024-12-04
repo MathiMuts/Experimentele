@@ -6,6 +6,19 @@ import matplotlib.pyplot as plt
 import inspect
 
 class Data:
+    """
+    Initialize the Data class.
+
+    Parameters:
+    - x (list or numpy.ndarray): Independent variable data points.
+    - y (list or numpy.ndarray): Dependent variable data points.
+    - dy (list, numpy.ndarray, or scalar): Errors in the dependent variable (y).
+    - dx (list, numpy.ndarray, scalar, or None, optional): Errors in the independent variable (x). Defaults to None.
+    - name (str, optional): Name of the dataset. Defaults to 'Dataset'.
+
+    Raises:
+    - ValueError: If input arrays have inconsistent lengths or invalid types.
+    """
     def __init__(self, x, y, dy, dx=None, name='Dataset'):
         self.name = name
         self.x = np.array(x) if isinstance(x, list) else x
@@ -23,15 +36,43 @@ class Data:
             raise ValueError(f"The input arrays must have the same dimensions")
 
     def __str__(self):
+        """
+        Displays a string representation of the dataset, including its name and data points.
+
+        Returns:
+        - str: A formatted string showing the dataset name and its data points.
+        """
         string = str(self.name) + ':\n'
         for x, y in zip(self.x, self.y):
             string += str(x) + '\t' + str(y) + '\n'
         return(string)
     
     def fit(self, model=None, initial_guess=None):
+        """
+        Perform a fit using the specified model.
+
+        Parameters:
+        - model (callable, optional): The model function to fit. If None, a default linear model is used.
+        - initial_guess (list, numpy.ndarray, or None, optional): Initial parameter guesses. Defaults to ones.
+
+        Returns:
+        - Fit: A Fit object containing the fitting results and methods for further analysis.
+        - The string method contains all the very usefull info.
+        """
         return Fit(self, model, initial_guess)
     
     def show(self, data_color='black', size=4, title="Titel", data_label="data", x_label="x-label", y_label="y-label"):
+        """
+        Plot the dataset with error bars.
+
+        Parameters:
+        - data_color (str, optional): Color for the data points and error bars. Defaults to 'black'.
+        - size (float, optional): Marker size for the data points. Defaults to 4.
+        - title (str, optional): Title of the plot. Defaults to "Titel".
+        - data_label (str, optional): Label for the dataset. Defaults to "data".
+        - x_label (str, optional): Label for the x-axis. Defaults to "x-label".
+        - y_label (str, optional): Label for the y-axis. Defaults to "y-label".
+        """
         fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
         ax.errorbar(self.x, self.y, xerr=self.dx, yerr=self.dy, label=data_label,
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
@@ -43,6 +84,18 @@ class Data:
         plt.show()
     
 class Fit:
+    """
+    Initialize the Fit class.
+
+    Parameters:
+    - data (Data): A Data object containing the dataset to fit.
+    - model (callable): The model function to use for the fit.
+    - initial_guess (list, numpy.ndarray, or None, optional): Initial parameter guesses. Defaults to None.
+    - root_attempts (int, optional): Maximum attempts to find roots for parameter uncertainties. Defaults to 100000.
+
+    Raises:
+    - ValueError: If the data or model are invalid, or if parameter count mismatches.
+    """
     def __init__(self, data, model, initial_guess=None, root_attempts=100000):
         self.data = data
         self.model = model if model else self._lineair_model
@@ -96,6 +149,19 @@ class Fit:
         return scipy_minimise(self._chi2, self.initial_guess)
     
     def show(self, data_color='black', model_color="royalblue", size=4, title="Titel", x_label="x-label", y_label="y-label", data_label="data", model_label="model"):
+        """
+        Display the dataset and fitted model on a plot.
+
+        Parameters:
+        - data_color (str, optional): Color for the data points and error bars. Defaults to 'black'.
+        - model_color (str, optional): Color for the fitted model line. Defaults to "royalblue".
+        - size (float, optional): Marker size for the data points. Defaults to 4.
+        - title (str, optional): Title of the plot. Defaults to "Titel".
+        - x_label (str, optional): Label for the x-axis. Defaults to "x-label".
+        - y_label (str, optional): Label for the y-axis. Defaults to "y-label".
+        - data_label (str, optional): Label for the dataset. Defaults to "data".
+        - model_label (str, optional): Label for the fitted model. Defaults to "model".
+        """
         model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 120)
         model_y = self.model(self.minima, model_x)
         
@@ -161,6 +227,14 @@ class Fit:
         return scipy_chi2.sf(self.chi2, (len(x)-self.num_params))
     
     def show_chi2(self):
+        """
+        Display chi-squared curves for each parameter.
+
+        The function plots the chi-squared distribution for each parameter against its value, including intersections and hypercontour levels.
+
+        Raises:
+        - ValueError: If roots for parameter uncertainties are not found within the bracket range.
+        """
         num_params = self.num_params
         num_cols = 2 if self.num_params <= 8 else 3
         num_rows = (num_params + num_cols - 1) // num_cols
@@ -192,6 +266,12 @@ class Fit:
         plt.show()
 
     def __str__(self):
+        """
+        Display a summary of the fit results.
+
+        Returns:
+        - str: A formatted string showing fit parameters, their uncertainties, χ² values, and p-value.
+        """
         string='----------------------------------------------------------------------------------------------------------------\n'
         for param, index in zip(self.param_names, range(self.num_params)):
             # Check if the error bounds are symmetric (if the difference between upper and lower error bounds is less than 1% of the lower bound)
@@ -210,36 +290,3 @@ class Fit:
         string += f"P-value                :     p-value    {self.p_value:>16.8f}\n"
         string += '----------------------------------------------------------------------------------------------------------------\n'
         return string
-
-
-
-
-if __name__ == "__main__":
-    np.random.seed(42)
-    x1 = np.linspace(0, 10, 100)
-    params_10 = np.random.uniform(-1, 1, 10)  # Random parameters
-    dy1 = np.random.uniform(0.5, 1.5, size=x1.size)
-    y1 = sum(p * x1**i for i, p in enumerate(params_10)) + np.random.normal(0, dy1)
-    dx1 = np.zeros_like(x1)
-
-    np.random.seed(42)
-    x2 = np.linspace(-5, 5, 50)
-    params_6 = np.random.uniform(-2, 2, 6)  # Random parameters
-    dy2 = np.random.uniform(0.5, 2.0, size=x2.size)
-    y2 = sum(p * x2**i for i, p in enumerate(params_6)) + np.random.normal(0, dy2)
-    dx2 = np.zeros_like(x2)
-
-    data1 = Data(x1, y1, dy1)
-    data2 = Data(x2, y2, dy2)
-
-    def model10(params, x):
-        p0, p1, p2, p3, p4, p5, p6, p7, p8, p9 = params
-        return sum(p * x**i for i, p in enumerate(params))
-    
-    def model6(params, x):
-        p0, p1, p2, p3, p4, p5 = params
-        return sum(p * x**i for i, p in enumerate(params))
-    
-    print(data2.fit(model6))
-    data2.fit(model6).show()
-    
