@@ -658,7 +658,7 @@ def X_sq(data, param_names, initial_guess, model,
 
     print('----------------------------------------------------------------------------------------------------------------')
 
-    chi2_min, chi2_red, p_value = calc_chi2_values(optimised.fun, x, param_names) WARNING:
+    chi2_min, chi2_red, p_value = calc_chi2_values(optimised.fun, x, param_names)
     # Calculate chi2_min, chi2_red and p-value
 
     print(f"Minimal χ² value       :     χ²_min     {chi2_min:>16.8f}")
