@@ -1,0 +1,1 @@
+NA dit practicum heb ik deze code nog 1000x verbeterd, in deze file is een classe: `Data(x, y, dy) te vinden met methods die uw leven veel makkelijker maken, je kan dit in gebruik zien van NA practicum6.

@@ -33,7 +33,7 @@ class Data:
                 raise ValueError(f"Input {array} must be a list or numpy array.")
         
         if len(self.x) != len(self.y) or len(self.x) != len(self.dx) or len(self.y) != len(self.dy):
-            raise ValueError(f"The input arrays must have the same dimensions")
+            raise ValueError("The input arrays must have the same dimensions")
 
     def __str__(self):
         """
@@ -114,7 +114,7 @@ class Fit:
 
     def _check_data(self):
         if not isinstance(self.data, Data):
-            ValueError(f"data must be a data-class object")
+            ValueError("data must be a data-class object")
 
         try:
             self.model(self.initial_guess, 1)
