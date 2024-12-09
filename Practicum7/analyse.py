@@ -49,10 +49,10 @@ def model(params, x):
 # print(absorbanties1.fit(model))
 
 absorbanties1log = fp.Data(T, np.log(data_1), d1/data_1)
-absorbanties1log.fit().show(title="Lineariseerde A(t) plot",x_label="t[s]",y_label="ln(A) []")
+absorbanties1log.fit().show(title="Lineariseerde A(t) plot",x_label="t[s]",y_label="ln(A) [/]")
 print(absorbanties1log.fit())
 
 absorbanties2log = fp.Data(T2, np.log(data_2), d2/data_2)
-absorbanties2log.fit().show(title="Lineariseerde A(t) plot",x_label="t[s]",y_label="ln(A) []")
+absorbanties2log.fit().show(title="Lineariseerde A(t) plot",x_label="t[s]",y_label="ln(A) [/]")
 print(absorbanties2log.fit())
 
