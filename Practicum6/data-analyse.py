@@ -17,14 +17,14 @@ phi2=file2[2]*np.pi/180
 f_E = np.ones_like(f)*0.01*(2*np.pi)
 A_E = np.ones_like(f)*2.5
 phi_E = np.ones_like(f)*10*np.pi/180
+
+
 f_E2 = np.ones_like(f2)*0.01*(2*np.pi)
-A_E2 = np.ones_like(f2)*1
+A_E2 = np.ones_like(f2)*0.75
 phi_E2 = np.ones_like(f2)*2*np.pi/180
 
 #data1 fitten amplitude    
 if False:
-    print(len(f_E))
-    print(len(A_E))
     param_names = ['w','B','C']
     initial_guess = [2,0.1,0.01]
 
@@ -40,7 +40,11 @@ if False:
         )
 
 # data 2 amplitude fit
-if False:
+if True:
+     A2=np.delete(A2,26)
+     f2=np.delete(f2,26)
+     A_E2=np.delete(A_E2,26)
+     f_E2=np.delete(f_E2,26)
      param_names = ['w','B','C']
      initial_guess = [10,0.1,1]
 
@@ -55,8 +59,8 @@ if False:
          VERBOSE=False, LaTeX=True,
          PLOT=True, graf1_title='Fit en data amplitude', graf1_x_label=r'$\omega$ [Hz]', graf1_y_label='A [mm]'
         )
-#data1 fitten frequentie    
-if True:
+#data1 fitten fase    
+if False:
      print(len(phi))
      phi=np.delete(phi,25)
      phi_E=np.delete(phi_E,25)
@@ -79,7 +83,7 @@ if True:
         PLOT=True, graf1_title=r'Fit voor $\phi(\omega)$ 1', graf1_x_label='$\omega$ [Hz]', graf1_y_label=r'$(\phi)$ [/]'
         )
 #data 2 fitten frequentie
-if True:
+if False:
     param_names = ['w', 'C','S']
     initial_guess = [0.26, -0.07, 1]
 
