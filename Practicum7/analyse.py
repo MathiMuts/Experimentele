@@ -12,8 +12,8 @@ absorbanties = fp.Data(x, y, dy)
 def model(params, x):
     A = params
     return A*x
-# print(absorbanties.fit(model))
-# absorbanties.fit().show()
+print(absorbanties.fit(model))
+absorbanties.fit().show()
 
 data_1=np.array([0.6777,0.61495,0.55706,0.50277,0.45396,0.4072,0.36515,0.32651,0.2922,0.26294,0.23723,0.21136,0.18762,0.16799,0.14923,0.13225,0.11662,0.10335])
 data_2=np.array([0.75223,0.71715,0.68048,0.6455,0.61031,0.57533,0.54337,0.51178,0.48297,0.45412,0.4277,0.40186,0.37751,0.3522,0.32759,0.30677,0.28685,0.26855,0.25045])

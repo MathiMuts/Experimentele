@@ -26,7 +26,7 @@ class Data:
         self.dx = np.abs(np.array(dx) if isinstance(dx, list) else dx) if dx is not None else np.zeros_like(x)
         self.dy = np.abs(np.array(dy) if isinstance(dy, list) else dy)
         self._check_data()
-               
+                 
     def _check_data(self):
         for array in (self.x, self.y, self.dx, self.dy):
             if not isinstance(array, np.ndarray):
