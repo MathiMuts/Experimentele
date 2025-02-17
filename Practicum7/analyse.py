@@ -1,6 +1,5 @@
 import fit_classes as fp 
 import numpy as np
-from pathlib import Path
 
 y = np.array([0.291, 0.540, 0.850, 1.108])
 mistery_y = 0.670
