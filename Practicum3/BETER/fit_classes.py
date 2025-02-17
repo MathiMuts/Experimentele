@@ -162,7 +162,7 @@ class Fit:
         - data_label (str, optional): Label for the dataset. Defaults to "data".
         - model_label (str, optional): Label for the fitted model. Defaults to "model".
         """
-        model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 120)
+        model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 1200)
         model_y = self.model(self.minima, model_x)
         
         fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))

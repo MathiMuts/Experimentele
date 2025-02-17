@@ -14,9 +14,9 @@ De ruwe data zit allemaal in één grote dictionary `data_arrays`. In deze dicti
 - `opgave5_freq2`
 - `opgave5_freq3`
 
-Die elk overeenkomen met een deelvraag in de opgave. Onder elk van deze keys (eg: `data_arrays[opgave1]`) zit een numpy array met alle Data-objecten van deze folder.
+Die elk overeenkomen met een deelvraag in de opgave. Onder elk van deze keys (eg: `data_arrays['opgave1']`) zit een numpy array met alle Data-objecten van deze folder.
 ```
-data_arrays[opgave1] = np.array(<obj1>,
+data_arrays['opgave1'] = np.array(<obj1>,
 <obj2>,
 <obj3>,
 ...,
