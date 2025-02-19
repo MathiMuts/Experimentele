@@ -3,6 +3,7 @@ import numpy as np
 import os, time
 
 errors = []
+ERROR = 1.85 # Error in mV
 
 class DataPlus(fp.Data):
     
@@ -26,7 +27,7 @@ def data_from_file(file):
     x = x[mask]
     y = y[mask]
 
-    dy = 1.85*np.ones_like(y)
+    dy = ERROR*np.ones_like(y)
     return DataPlus(x, y, dy, name=file_path)
         
 def get_lowest_folders(root):
