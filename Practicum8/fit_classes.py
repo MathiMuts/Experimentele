@@ -96,7 +96,7 @@ class Fit:
     Raises:
     - ValueError: If the data or model are invalid, or if parameter count mismatches.
     """
-    def __init__(self, data, model, initial_guess=None, root_attempts=100000):
+    def __init__(self, data, model, initial_guess=None, root_attempts=100):
         self.data = data
         self.model = model if model else self._lineair_model
         self.root_attempts = root_attempts
