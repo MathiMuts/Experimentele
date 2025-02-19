@@ -20,10 +20,14 @@ class DataPlus(fp.Data):
 def data_from_file(file):
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
     data = np.genfromtxt(file_path, delimiter=",", skip_header=9)
-    index = data[:, 0].astype(int)
-    voltage = data[:, 1]
-    E_voltage = 1.85*np.ones_like(voltage)
-    return DataPlus(index, voltage, E_voltage, name=file_path)
+    x = data[:, 0].astype(int)
+    y = data[:, 1]
+    mask = np.concatenate(([True], y[1:] != y[:-1]))
+    x = x[mask]
+    y = y[mask]
+
+    dy = 1.85*np.ones_like(y)
+    return DataPlus(x, y, dy, name=file_path)
         
 def get_lowest_folders(root):
     lowest_folders = []
@@ -52,9 +56,8 @@ def load_data_by_folder(root):
 
 data_arrays = load_data_by_folder(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"))
 
-# print(data_arrays['opgave1'][0].show())
 for error in errors:
     print(error)
-print("ERROR: 1.85")
+# print(data_arrays['opgave1'][0].show())
 print(data_arrays['opgave1'][0].fit)
 data_arrays['opgave1'][0].fit.show(size=2)
