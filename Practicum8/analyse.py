@@ -1,9 +1,10 @@
 import fit_classes as fp
 import numpy as np
-import os, time
+import os
+import time
 
 errors = []
-ERROR = 1.85 # Error in mV
+ERROR = 0.1 # Error in mV
 
 class DataPlus(fp.Data):
     
@@ -15,7 +16,7 @@ class DataPlus(fp.Data):
             return A*np.sin(w*x + phi) + c
         try:
             self.fit = self.fit(sinus_model, initial_guess=(200, 0.006, -10, 25))
-        except ValueError as e:
+        except ValueError:
             errors.append(self.name)
 
         self.A, self.w, self.phi, self.c = self.fit.minima
@@ -40,7 +41,7 @@ def get_lowest_folders(root):
     return lowest_folders
 
 def load_data_by_folder(root):
-    print(f"----------------------------------------------------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------------------------")
     start_time = time.time()
     folder_data = {}
     total_files = 0
@@ -62,9 +63,9 @@ def load_data_by_folder(root):
             folder_data[folder_name] = np.array(data_list)
 
     elapsed_time = time.time() - start_time
-    print(f"----------------------------------------------------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------------------------")
     print(f"Data loaded in {elapsed_time:.6f} seconds")
-    print(f"----------------------------------------------------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------------------------")
     return folder_data
 
 data_arrays = load_data_by_folder(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"))
