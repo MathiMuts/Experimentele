@@ -111,6 +111,7 @@ class Fit:
         self.chi2_red = self._chi2_red()
         self.p_value = self._p_value()
         self._check_data()
+        self.init = None
 
     def _check_data(self):
         if not isinstance(self.data, Data):
@@ -148,7 +149,7 @@ class Fit:
     def _minimise(self):
         return scipy_minimise(self._chi2, self.initial_guess)
     
-    def show(self, data_color='black', model_color="royalblue", size=4, title="Titel", x_label="x-label", y_label="y-label", data_label="data", model_label="model"):
+    def show(self, data_color='black', model_color="royalblue", size=4, title="Titel", x_label="x-label", y_label="y-label", data_label="data", model_label="model", fit_guess=False):
         """
         Display the dataset and fitted model on a plot.
 
@@ -169,6 +170,8 @@ class Fit:
         ax.errorbar(self.data.x, self.data.y, xerr=self.data.dx, yerr=self.data.dy, label=data_label,
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
         plt.plot(model_x, model_y, label=model_label, color=model_color)
+        if self.init and fit_guess:
+            plt.plot(model_x, self.model(self.init, model_x), label="estimated_model", color="red")
         ax.set_title(title)
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
