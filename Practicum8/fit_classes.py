@@ -171,7 +171,7 @@ class Fit:
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
         plt.plot(model_x, model_y, label=model_label, color=model_color)
         if self.init and fit_guess:
-            plt.plot(model_x, self.model(self.init, model_x), label="estimated_model", color="red")
+            plt.plot(model_x, self.model(self.init, model_x), label="estimated_model", color="red", linestyle="--")
         ax.set_title(title)
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
