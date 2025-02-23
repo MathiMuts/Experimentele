@@ -119,9 +119,11 @@ data_arrays = load_data_by_folder(os.path.join(os.path.dirname(os.path.abspath(_
 for error in errors:
     print(error)
 # print(data_arrays['opgave1'][0].show())
-print(data_arrays['opgave2_1'][16].fit)
-print(data_arrays['opgave2_1'][16].fit.init)
+#print(data_arrays['opgave2_1'][16].fit)
+#print(data_arrays['opgave2_1'][16].fit.init)
 # print(data_arrays['opgave1'][0].A) # amplitude
 # print(data_arrays['opgave1'][0].f) # hoekfreq
-data_arrays['opgave1'][0].fit.show(size=2, fit_guess=True)
-data_arrays['opgave2_1'][16].fit.show(size=2, fit_guess=True)
+#data_arrays['opgave1'][0].fit.show(size=2, fit_guess=True)
+#data_arrays['opgave2_1'][16].fit.show(size=2, fit_guess=True)
+print(data_arrays['opgave1'][0].fit)
+print(data_arrays['opgave1'][0].show())
