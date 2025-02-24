@@ -72,7 +72,16 @@ git push
 - Stijlgids  4/4 
 - Voorbereiding 4/4
 ## Practicum 5: *Analyse van een Am241 bron*
-WARNING: nog geen verbetering
+- **Totaalscore :  7/10**
+- Poisson verdeling verwachten + juiste formules en uitvoering om fout achtergrond kleiner te krijgen dan 1 + is de fout op achtergrond kleiner dan 1: 0.5/1
+- Fout metingen kleiner dan 5%? 0.5/0.5
+- Achtergrond overal afgetrokken (ook bij de proef-specifieke meting) 0/1
+- Motivatie gebruikt om de straling te indentificeren 0.5/1
+- Fout tellingen onder 10% 0/0.5
+- Log I(d) grafiek? 1.5/1.5
+- Fit bij grote en kleine d waardes met p-waardes 1.5/1.5
+- Verantwoording waarom dit mag! De 27 keV verwaarlozen bij grotere d. 1/1.5
+- Beide halveringsdiktes met fout erop 1.5/1.5
 ## Practicum 6: *De gedreven gedempte harmonischeoscillator*
 - **Totaalscore :  9.5/10**
     - Herschrijven uitdrukking:   0.5/1
