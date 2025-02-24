@@ -90,5 +90,44 @@ git push
     - Vergelijking tussen oscillator configuraties:  1.5/1.5
     - Limietgevallen voor hoge en lage frequenties: 0.5/0.5
 - Stijlgids:  1/1
-## Practicum 6: *Chemie practicum 1: Maken vanoplossingen en kinetica*
-WARNING: nog geen verbetering
+## Practicum 7: *Chemie practicum 1: Maken vanoplossingen en kinetica*
+- **Totaalscore :  18.5/20**
+- Voorbereiding 12/12 -> herleiden naar 6 (deel punten door 2)
+    - Molaire concentratieberekeningen  4/4 (Voorbereiding, check per waarde)
+        - Berekening concentratie correct  4/4 (1pt per waarde)
+    - Kinetica 5/8
+    - Reactiesnelheid intuitie 3/3
+        - statistische verklaring – hogere kans/waarschijnlijkheid op interactie moleculen: pA~ [A]  	1/1
+        - reactieorde-stoichiometrie relatie voor elementaire reacties via zelfde principe, bv 2A + B -> A2B, dan 	kans op interactie pA - pA pB .      1/1
+        - Niet voor complexe en meerstapsreacties, onder meer door compatibiliteitsoverwegingen tussen moleculen   	1/1
+    - Fysische betekenis k  2/2
+        - schaalfactor die concentraties (interactiewaarschijnlijkheid) relateert aan de reactiesnelheid. Geeft dus in zekere zin  ‘effectiviteit’ van reactieproces (omzetting reagentia naar reactieproducten)  1/1
+        - Hangt voornamelijk af van temperatuur (Arrhenius verband) 1/1
+    - Differentiaalvergelijking en plotten  3/3 (/1 per orde, helft op uitwerking, helft op plot)
+- DEEL 1: Maken en karakteriseren van oplossingen 6/8
+    - Beschrijving bereidingsmethode oplossingen + foutenschatting (glaswerk, bronnen van systematische en statistische fouten)  2/3. 
+        - Correct vermelden van het gebruikt glaswerk + fouten 1/1
+        - Formule foutenpropagatie (systematische fouten uit glaswerk & stockoplossing voldoende) 1/1
+        - Foutwaardes op de concentraties, berekend via de formule, in correcte notatie 0/1
+    - Ijklijn  3/3
+    - Figuur met data en lineaire fit 1/1 (Beer-Lambert, offset is toegelaten indien besproken/gemotiveerd)
+    - Geven van fitwaarden (extinctiecoëfficiënt en eventuele offset) 0.5/0.5 en fitstatistieken (p-waarde en chi-kwadraat) 0.5/0.5   
+    - Interpretatie fitstatistieken/fitkwaliteit (0.5)  +  terugkoppeling bereidingsmethode m.a.w. zijn sommige fouten over-of onderschat of waar komen eventuele uitschieters vandaan (0.5). Indien de fitkwaliteit hoog is, hoeft de terugkoppeling naar bereidingsmethode niet uitgebreid.  1/1
+
+    - Bepalen concentratie onbekende oplossing 1/2
+    - Omvormen formule – idealiter grafisch aanduiden op figuur ijklijn (niet verplicht)  0/1
+    - Foutschatting op de concentratie (via propagatie) 1/1 
+- DEEL 2: Kinetica  10/10
+    - Pseudo-reactieorde kristalviolet  2/2
+    - Figuur met data en fit voor reactieverloop als functie van tijd (mag zowel aangepast linear verband als origineel verband zijn) /2  (1 voor elke concentratie NaOH) 
+
+    - Bepalen snelheidsconstante k’ en halveringstijd t1/2  (fitparameters) 6/6
+    - Pseudo-snelheidsconstantes met correcte eenheden en fout  /2 (1 voor elke concentratie)
+    - Halveringstijd en bijbehorende fout – via formule (en eventueel grafisch)  /2 (1 voor elke concentratie)
+    - Interpretatie fitkwaliteit op basis van fitstatistieken 2/2 (1 voor elke concentratie)
+
+    - Pseudo-reactieorde NaOH 2/2
+    - Correct toepassen formule, rekening houdend met verdunning /1.5
+    - Foutenschatting via propagatie /0.5
+## Practicum 8: *Geluidsgolven*
+## Practicum 9: *RLC-kring*
