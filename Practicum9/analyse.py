@@ -59,6 +59,7 @@ errors=0.1*np.ones_like(potential_2_dict['2-2_1.5Hz.csv'])
 def sin_model(params,x):
     phi,A,f,c= params
     return(c+A*np.sin(2*np.pi*f*x+phi))
-test2=fp.Data(time_dict['2-2_1.5Hz.csv'][:200], potential_2_dict['2-2_1.5Hz.csv'][:200],errors[:200])
+test2=fp.Data(time_dict['2-2_1.5Hz.csv'], potential_2_dict['2-2_1.5Hz.csv'],errors)
 print(test2.fit(sin_model))
-test2.fit(sin_model, initial_guess=(1,0.9,1.5,0)).show()
+#test2.fit(sin_model, initial_guess=(1,0.9,1.5,0)).show()
+test2.fit(sin_model, initial_guess=(1,0.9,1.5,0)).show_chi2()
