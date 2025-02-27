@@ -111,7 +111,6 @@ class Fit:
         self.chi2_red = self._chi2_red()
         self.p_value = self._p_value()
         self._check_data()
-        self.init = None
 
     def _check_data(self):
         if not isinstance(self.data, Data):
@@ -163,15 +162,15 @@ class Fit:
         - data_label (str, optional): Label for the dataset. Defaults to "data".
         - model_label (str, optional): Label for the fitted model. Defaults to "model".
         """
-        model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 1200)
+        model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 12000)
         model_y = self.model(self.minima, model_x)
         
         fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
         ax.errorbar(self.data.x, self.data.y, xerr=self.data.dx, yerr=self.data.dy, label=data_label,
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
         plt.plot(model_x, model_y, label=model_label, color=model_color)
-        if self.init and fit_guess:
-            plt.plot(model_x, self.model(self.init, model_x), label="estimated_model", color="red", linestyle="--")
+        if fit_guess:
+            plt.plot(model_x, self.model(self.initial_guess, model_x), label="estimated_model", color="red", linestyle="--")
         ax.set_title(title)
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
@@ -248,7 +247,7 @@ class Fit:
             chi_x = np.linspace(
                  np.abs(self.minima[index] - 1.4*self.minima_errors_L[index]),
                  np.abs(self.minima[index] + 1.4*self.minima_errors_R[index]),
-                200)
+                1200)
             chi_y = [self._chi2_single_var(val, index) for val in chi_x]
 
             axs[index].plot(chi_x, chi_y, label=r"$\chi^2$" + f" curve for {self.param_names[index]}")
