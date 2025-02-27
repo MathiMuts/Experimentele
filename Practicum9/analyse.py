@@ -1,15 +1,9 @@
 import fit_classes as fp
 import numpy as np
 import os
-import time
-from scipy.interpolate import interp1d
-from scipy import optimize
-
 
 import pandas as pd
 import glob
-import os
-import numpy as np
 
 # Get the absolute path to the "data" folder
 script_dir = os.path.dirname(os.path.abspath(__file__))  # Get the script's directory
