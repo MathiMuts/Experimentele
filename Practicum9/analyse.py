@@ -57,3 +57,4 @@ test2=fp.Data(time_dict['2-2_1.5Hz.csv'], potential_2_dict['2-2_1.5Hz.csv'],erro
 print(test2.fit(sin_model))
 #test2.fit(sin_model, initial_guess=(1,0.9,1.5,0)).show()
 test2.fit(sin_model, initial_guess=(1,0.9,1.5,0)).show_chi2()
+
