@@ -169,6 +169,7 @@ class Fit:
         ax.errorbar(self.data.x, self.data.y, xerr=self.data.dx, yerr=self.data.dy, label=data_label,
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
         plt.plot(model_x, model_y, label=model_label, color=model_color)
+
         if fit_guess:
             plt.plot(model_x, self.model(self.initial_guess, model_x), label="estimated_model", color="red", linestyle="--")
         ax.set_title(title)
