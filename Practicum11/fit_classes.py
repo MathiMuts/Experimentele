@@ -2,6 +2,7 @@ import numpy as np
 from scipy.optimize import minimize as scipy_minimise
 from scipy.optimize import root_scalar as scipy_root_scalar
 from scipy.stats import chi2 as scipy_chi2
+from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 import inspect
 
@@ -26,14 +27,14 @@ class Data:
         self.dx = np.abs(np.array(dx) if isinstance(dx, list) else dx) if dx is not None else np.zeros_like(x)
         self.dy = np.abs(np.array(dy) if isinstance(dy, list) else dy)
         self._check_data()
-                 
+               
     def _check_data(self):
         for array in (self.x, self.y, self.dx, self.dy):
             if not isinstance(array, np.ndarray):
                 raise ValueError(f"Input {array} must be a list or numpy array.")
         
         if len(self.x) != len(self.y) or len(self.x) != len(self.dx) or len(self.y) != len(self.dy):
-            raise ValueError(f"The input arrays must have the same dimensions")
+            raise ValueError("The input arrays must have the same dimensions")
 
     def __str__(self):
         """
@@ -61,7 +62,7 @@ class Data:
         """
         return Fit(self, model, initial_guess)
     
-    def show(self, data_color='black', size=4, title="Titel", data_label="data", x_label="x-label", y_label="y-label"):
+    def show(self, data_color='black', size=4, title="Titel", data_label="data", x_label="x-label", y_label="y-label", spline=False):
         """
         Plot the dataset with error bars.
 
@@ -76,6 +77,12 @@ class Data:
         fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
         ax.errorbar(self.x, self.y, xerr=self.dx, yerr=self.dy, label=data_label,
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
+        if spline:
+            cs = CubicSpline(self.x, self.y)
+            x = np.linspace(self.x[0], self.x[-1], 1000)
+            y = cs(x)
+            plt.plot(x, y, label='spline interpolation')
+
         ax.set_title(title)
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
@@ -96,7 +103,7 @@ class Fit:
     Raises:
     - ValueError: If the data or model are invalid, or if parameter count mismatches.
     """
-    def __init__(self, data, model, initial_guess=None, root_attempts=100):
+    def __init__(self, data, model, initial_guess=None, root_attempts=100000):
         self.data = data
         self.model = model if model else self._lineair_model
         self.root_attempts = root_attempts
@@ -114,7 +121,7 @@ class Fit:
 
     def _check_data(self):
         if not isinstance(self.data, Data):
-            ValueError(f"data must be a data-class object")
+            ValueError("data must be a data-class object")
 
         try:
             self.model(self.initial_guess, 1)
@@ -148,7 +155,7 @@ class Fit:
     def _minimise(self):
         return scipy_minimise(self._chi2, self.initial_guess)
     
-    def show(self, data_color='black', model_color="royalblue", size=4, title="Titel", x_label="x-label", y_label="y-label", data_label="data", model_label="model", fit_guess=False):
+    def show(self, data_color='black', model_color="royalblue", size=4, title="Titel", x_label="x-label", y_label="y-label", data_label="data", model_label="model"):
         """
         Display the dataset and fitted model on a plot.
 
@@ -162,16 +169,13 @@ class Fit:
         - data_label (str, optional): Label for the dataset. Defaults to "data".
         - model_label (str, optional): Label for the fitted model. Defaults to "model".
         """
-        model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 12000)
+        model_x = np.linspace(0.9*np.min(self.data.x), 1.1*np.max(self.data.x), 120)
         model_y = self.model(self.minima, model_x)
         
         fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
         ax.errorbar(self.data.x, self.data.y, xerr=self.data.dx, yerr=self.data.dy, label=data_label,
                 marker="o", markersize=size, fmt=" ", color=data_color, ecolor=data_color, capsize=2, capthick=0.6, linewidth=0.6)
         plt.plot(model_x, model_y, label=model_label, color=model_color)
-
-        if fit_guess:
-            plt.plot(model_x, self.model(self.initial_guess, model_x), label="estimated_model", color="red", linestyle="--")
         ax.set_title(title)
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
@@ -248,7 +252,7 @@ class Fit:
             chi_x = np.linspace(
                  np.abs(self.minima[index] - 1.4*self.minima_errors_L[index]),
                  np.abs(self.minima[index] + 1.4*self.minima_errors_R[index]),
-                1200)
+                200)
             chi_y = [self._chi2_single_var(val, index) for val in chi_x]
 
             axs[index].plot(chi_x, chi_y, label=r"$\chi^2$" + f" curve for {self.param_names[index]}")
