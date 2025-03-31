@@ -130,4 +130,21 @@ git push
     - Correct toepassen formule, rekening houdend met verdunning /1.5
     - Foutenschatting via propagatie /0.5
 ## Practicum 8: *Geluidsgolven*
+- **Totaalscore : 10.5/11 -> 9.5/10**
+    - Staande golven en kallibratie: 2/2
+    - Amplitudes als functie van positie: 2/2
+    - Geluidssnelheid: 2/2
+    - Golven bij 200 mm: 1/1
+    - golven bij 300 mm: 1/1
+    - Staandegolfverhouding: 1/1
+    - Bijkomende vragen: 1/1
+    - stijl 0.5/1
 ## Practicum 9: *RLC-kring*
+- **Totaalscore : 9.75/10**
+    - Nagedacht over keuze frequentie opgave 1. ( zodat halve periode b >> RC) 1/1
+    - Plot + fit opladen/ontladen 2/2
+    - Amplitude en faseplot + vgl met theorie (RC) 2/2
+    - Cut off aangeduid : ½*pi*RC vs de 1/sqrt(2) waarde? 1/1
+    - Filtertype (hoog- en laagdoorlaatfilter) 1/1
+    - Analogie met mechanische oscillator 2/2
+    - Stijlgids 0.75/1
