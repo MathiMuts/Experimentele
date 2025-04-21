@@ -4,12 +4,13 @@ from scipy.interpolate import CubicSpline
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 import os
-# data = np.loadtxt(r"C:\Users\micha\OneDrive\Documents\Desktop\Experimentele\Practicum 13-VRIJE PROEF\data_vrije4.csv", delimiter=",",skiprows=1)
-data  = np.loadtxt(r"/home/mathi/Experimentele/Practicum 13-VRIJE PROEF/Vrijdag_data_vrije3.csv", delimiter=",",skiprows=1)
+
+#polarisator moet op 33 deg voor loodrecht
+data = np.loadtxt(r"C:\Users\micha\OneDrive\Documents\Desktop\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
+# data  = np.loadtxt(r"/home/mathi/Experimentele/Practicum 13-VRIJE PROEF/Vrijdag_data_vrije3.csv", delimiter=",",skiprows=1)
 
 # Extract each column into a separate array
 theta_vals, i_P, i_O = data[:, 0], data[:, 1], data[:, 2]
-
 print("Column 1:", theta_vals)
 print("Column 2:", i_P)
 print("Column 3:", i_O)
