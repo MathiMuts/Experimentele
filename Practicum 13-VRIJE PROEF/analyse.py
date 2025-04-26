@@ -27,7 +27,11 @@ L=1
 lamda=1
 def modelP(params,x):
  phi,C,delta, d=params
- return (1-1/2*(1-np.cos(phi))*np.sin(2*(x+delta))**2)*C + d
+ return (1 - 1/2*(1-np.cos(phi)) * np.sin(2*(x+delta))**2)*C + d
+
+def modelP_simple(params,x):
+ A, w, delta, c =params
+ return A* np.sin(2*(w*x+delta))**2 + c
 
 def modelO(params,x):
  phi,C,delta, d=params
@@ -41,11 +45,12 @@ P_data=fp.Data(theta_vals,I_P,I_P_err)
 O_data=fp.Data(theta_vals,I_O,I_O_err)
 # P_data.show()
 # O_data.show()
-# initial_guess=(0.0002, 1, 0, 0.9993)
-# print(P_data.fit(model=sin, initial_guess=initial_guess).show()) # WERKT!
+initial_guess=(0.0002, 1, 0, 0.9993)
+print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
+P_data.fit(model=sin, initial_guess=initial_guess).show()
 
 initial_guess=(0.0002, 1, 0, 0.9993)
-print(P_data.fit(model=modelP, initial_guess=initial_guess).show())
+# print(P_data.fit(model=modelP_simple, initial_guess=initial_guess).show())
 
 # print(O_data.fit(model=modelO, initial_guess=(1,0.02,0, 1)).show())
 # P_data.fit(model=modelP,initial_guess=(0,0.02,0)).show()
@@ -56,14 +61,15 @@ print(P_data.fit(model=modelP, initial_guess=initial_guess).show())
 
 
 # INFO: Guess for fit
-# model_x = np.linspace(0.9*np.min(P_data.x), 1.1*np.max(P_data.x), 120)
-# # model_y = P_data.model(P_data.minima, model_x)
-# guess_y = sin(initial_guess, model_x)
+model = modelP_simple
+model_x = np.linspace(0.9*np.min(P_data.x), 1.1*np.max(P_data.x), 120)
+# model_y = P_data.model(P_data.minima, model_x)
+guess_y = model(initial_guess, model_x)
 
-# fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
-# ax.errorbar(P_data.x, P_data.y, xerr=P_data.dx, yerr=P_data.dy,
-#         marker="o", markersize=1, fmt=" ", color="b", ecolor="black", capsize=2, capthick=0.6, linewidth=0.6)
-# plt.plot(model_x, guess_y, color="r", label="guess")
-# ax.legend()
-# plt.tight_layout()
-# plt.show()
+fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
+ax.errorbar(P_data.x, P_data.y, xerr=P_data.dx, yerr=P_data.dy,
+        marker="o", markersize=1, fmt=" ", color="b", ecolor="black", capsize=2, capthick=0.6, linewidth=0.6)
+plt.plot(model_x, guess_y, color="r", label="guess")
+ax.legend()
+plt.tight_layout()
+plt.show()
