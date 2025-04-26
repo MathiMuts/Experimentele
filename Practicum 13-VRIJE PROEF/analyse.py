@@ -7,7 +7,9 @@ import os
 
 #polarisator moet op 33 deg voor loodrecht
 # data = np.loadtxt(r"C:\Users\micha\OneDrive\Documents\Desktop\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
-data  = np.loadtxt(r"/home/mathi/Experimentele/Practicum 13-VRIJE PROEF/paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
+# data  = np.loadtxt(r"/home/mathi/Experimentele/Practicum 13-VRIJE PROEF/paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
+# data  = np.loadtxt(r"C:\Users\Mathi\Documents\3) - Study\3) - Uni\2) - Ba2\Experimentele\Practicum 13-VRIJE PROEF\synthetic_dataset.csv", delimiter=",",skiprows=1)
+data  = np.loadtxt(r"C:\Users\Mathi\Documents\3) - Study\3) - Uni\2) - Ba2\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
 
 # Extract each column into a separate array
 theta_vals, i_P, i_O = data[:, 0], data[:, 1], data[:, 2]
@@ -15,7 +17,7 @@ theta_vals, i_P, i_O = data[:, 0], data[:, 1], data[:, 2]
 # print("Column 2:", i_P)
 # print("Column 3:", i_O)
 
-ERROR = 0.0001
+ERROR = 0.03
 theta_vals=np.array(theta_vals)*np.pi/180
 i_P=np.array(i_P)
 I_P_err=np.ones_like(i_P)*ERROR
@@ -26,8 +28,8 @@ I_O=(i_O/(i_P+i_O))
 L=1
 lamda=1
 def modelP(params,x):
- phi,C,delta, d=params
- return (1 - 1/2*(1-np.cos(phi)) * np.sin(2*(x+delta))**2)*C + d
+ phi,C,delta=params
+ return (1 - 1/2*(1-np.cos(phi)) * np.sin(2*(x+delta))**2)*C
 
 def modelP_simple(params,x):
  A, w, delta, c =params
@@ -44,32 +46,40 @@ def sin(params,x):
 P_data=fp.Data(theta_vals,I_P,I_P_err)
 O_data=fp.Data(theta_vals,I_O,I_O_err)
 # P_data.show()
-# O_data.show()
-initial_guess=(0.0002, 1, 0, 0.9993)
-print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
-P_data.fit(model=sin, initial_guess=initial_guess).show()
+# # O_data.show()
+# initial_guess=(0.0002, 1, 0, 0.9993)
+# print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
+# P_data.fit(model=sin, initial_guess=initial_guess).show()
 
-initial_guess=(0.0002, 1, 0, 0.9993)
-# print(P_data.fit(model=modelP_simple, initial_guess=initial_guess).show())
+EXP_AMPLITUDE = 0.00021 # uit fit hierboven
 
-# print(O_data.fit(model=modelO, initial_guess=(1,0.02,0, 1)).show())
-# P_data.fit(model=modelP,initial_guess=(0,0.02,0)).show()
-# O_data.fit(model=modelO,initial_guess=(0,0.02,0)).show()
-#safier-1
-#lithium niobaat-2
+DELTA_N = -0.085
+THICKNESS = 0.5 * 1e-3
+LAMBDA = 670 * 1e-9
 
+# # INFO: wat we zouden moeten uitkomen
+# delta_phi = 2 * np.pi * DELTA_N * THICKNESS / LAMBDA
+# delta_phi_normalised = np.mod(delta_phi, 2 * np.pi)
+# amplitude = 1/2 * (1 - np.cos(delta_phi_normalised))
+# print("phi:", delta_phi_normalised / np.pi, "pi")
+# print("amplitude:", amplitude)
 
+# print("-----------------------")
 
-# INFO: Guess for fit
-model = modelP_simple
-model_x = np.linspace(0.9*np.min(P_data.x), 1.1*np.max(P_data.x), 120)
-# model_y = P_data.model(P_data.minima, model_x)
-guess_y = model(initial_guess, model_x)
+# INFO: Wat we uikomen
+exp_delta_phi = np.arccos(1 - 2*EXP_AMPLITUDE)
+print("phi:", exp_delta_phi)
+k= 63
+phi = -exp_delta_phi + 2 * np.pi * k
+exp_dikte = (LAMBDA * phi) / (2 * np.pi * -DELTA_N)
 
-fig, ax = plt.subplots(nrows=1, ncols=1, dpi=120, figsize=(5, 3))
-ax.errorbar(P_data.x, P_data.y, xerr=P_data.dx, yerr=P_data.dy,
-        marker="o", markersize=1, fmt=" ", color="b", ecolor="black", capsize=2, capthick=0.6, linewidth=0.6)
-plt.plot(model_x, guess_y, color="r", label="guess")
-ax.legend()
-plt.tight_layout()
-plt.show()
+print(f"phi + k ({k}) * 2pi:", phi)
+print("dikte:", exp_dikte * 1e3, "mm")
+
+# print("-----------------------")
+
+# # INFO: Wat we uikomen
+# exp_delta_phi = np.arccos(1 - 2*EXP_AMPLITUDE)
+# exp_delta_N = (exp_delta_phi * LAMBDA) / (2 * np.pi * THICKNESS)
+# print("phi:", exp_delta_phi / np.pi, "pi")
+# print("delta N:", exp_delta_N)
