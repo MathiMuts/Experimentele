@@ -1,0 +1,25 @@
+5,17
+5,17
+5, 15.5
+5, 16
+
+--> gemiddelde = 16.375
+--> lambda = gem*2/5 = 655nm
+
+10 11.5
+10 13
+10 12
+
+--> gemiddelde = 12.16667
+--> n-1 = 2*gem*lambda*T*p_0 /(2*L*T_0)
+--> n = 1.000226 (theorie is 1.00029)
+
+11
+12
+11.5
+--> gemiddelde = 19.833
+--> n = 1.0003690 (theorie is 1.00045)
+
+
+
+n\ =\ c\cdot v\cdot\left(21+273.15\right)\cdot\frac{1.013}{\left(2\cdot0.0384\cdot273.15\right)}
