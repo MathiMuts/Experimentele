@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import os
 
 #polarisator moet op 33 deg voor loodrecht
-# data = np.loadtxt(r"C:\Users\micha\OneDrive\Documents\Desktop\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
+data = np.loadtxt(r"C:\Users\micha\OneDrive\Documents\Desktop\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
 # data  = np.loadtxt(r"/home/mathi/Experimentele/Practicum 13-VRIJE PROEF/paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
 # data  = np.loadtxt(r"C:\Users\Mathi\Documents\3) - Study\3) - Uni\2) - Ba2\Experimentele\Practicum 13-VRIJE PROEF\synthetic_dataset.csv", delimiter=",",skiprows=1)
-data  = np.loadtxt(r"C:\Users\Mathi\Documents\3) - Study\3) - Uni\2) - Ba2\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
+# data  = np.loadtxt(r"C:\Users\Mathi\Documents\3) - Study\3) - Uni\2) - Ba2\Experimentele\Practicum 13-VRIJE PROEF\paas_vrije_proef_2.csv", delimiter=",",skiprows=1)
 
 # Extract each column into a separate array
 theta_vals, i_P, i_O = data[:, 0], data[:, 1], data[:, 2]
@@ -17,16 +17,17 @@ theta_vals, i_P, i_O = data[:, 0], data[:, 1], data[:, 2]
 # print("Column 2:", i_P)
 # print("Column 3:", i_O)
 
-ERROR = 0.03
+i_P_err=0.002
+i_O_err=0.0002
+
 theta_vals=np.array(theta_vals)*np.pi/180
 i_P=np.array(i_P)
-I_P_err=np.ones_like(i_P)*ERROR
+I_P_err=np.sqrt(i_O**2*i_P_err**2+i_P**2*i_O_err**2)/(i_P**2+i_O**2)
 i_O=np.array(i_O)
-I_O_err=np.ones_like(i_O)*ERROR
+I_O_err=np.sqrt(i_O**2*i_P_err**2+i_P**2*i_O_err**2)/(i_P**2+i_O**2)
 I_P=(i_P/(i_P+i_O))
 I_O=(i_O/(i_P+i_O))
-L=1
-lamda=1
+
 def modelP(params,x):
  phi,C,delta=params
  return (1 - 1/2*(1-np.cos(phi)) * np.sin(2*(x+delta))**2)*C
@@ -41,18 +42,17 @@ def modelO(params,x):
 
 def sin(params,x):
  A, w, phi, c =params
- return A* np.sin(w*x+phi)+c
+ return A* np.sin(w*x+phi)**2+c
 
 P_data=fp.Data(theta_vals,I_P,I_P_err)
 O_data=fp.Data(theta_vals,I_O,I_O_err)
-# P_data.show()
-# # O_data.show()
-# initial_guess=(0.0002, 1, 0, 0.9993)
-# print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
-# P_data.fit(model=sin, initial_guess=initial_guess).show()
+P_data.show()
+# O_data.show()
+initial_guess=(0.0002, 1, 0, 0.9993)
+print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
+P_data.fit(model=sin, initial_guess=initial_guess).show(title='Normalised data',x_label=r"$\theta [rad]$", y_label=r"$I_P [/]$")
 
-EXP_AMPLITUDE = 0.00021 # uit fit hierboven
-
+EXP_AMPLITUDE = 0.00041 # uit fit hierboven
 DELTA_N = -0.085
 THICKNESS = 0.5 * 1e-3
 LAMBDA = 670 * 1e-9
