@@ -14,12 +14,14 @@ Lambda=2/5*avg1*10**(-6)
 err=0.5
 print(Lambda)
 N_1=avg2/10*2*10**(-5)
+err_N1=0.5/2/10*2*10**(-5)
 p_0=10**5*1.013
 T=294.15
 T_0=273.15
 L=3.82*10**(-2)
 n_O=N_1*Lambda*T*p_0/(2*L*T_0)
 print(n_O)
+print(err_N1/N_1)
 N_2=avg3/10*2*10**(-5)
 n_CO=N_2*Lambda*T*p_0/(2*L*T_0)
 print(n_CO)

@@ -46,11 +46,11 @@ def sin(params,x):
 
 P_data=fp.Data(theta_vals,I_P,I_P_err)
 O_data=fp.Data(theta_vals,I_O,I_O_err)
-P_data.show()
+# P_data.show()
 # O_data.show()
 initial_guess=(0.0002, 1, 0, 0.9993)
-print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
-P_data.fit(model=sin, initial_guess=initial_guess).show(title='Normalised data',x_label=r"$\theta [rad]$", y_label=r"$I_P [/]$")
+# print(P_data.fit(model=sin, initial_guess=initial_guess)) # WERKT!
+# P_data.fit(model=sin, initial_guess=initial_guess).show(title='Normalised data',x_label=r"$\theta [rad]$", y_label=r"$I_P [/]$")
 
 EXP_AMPLITUDE = 0.00041 # uit fit hierboven
 DELTA_N = -0.085
@@ -83,3 +83,8 @@ print("dikte:", exp_dikte * 1e3, "mm")
 # exp_delta_N = (exp_delta_phi * LAMBDA) / (2 * np.pi * THICKNESS)
 # print("phi:", exp_delta_phi / np.pi, "pi")
 # print("delta N:", exp_delta_N)
+err_d=0.05*THICKNESS
+print(err_d)
+n_err=np.sqrt((0.05)**2+(1/670)**2+(5/405)**2)
+print(n_err)
+print(4.9653742*5/405)
