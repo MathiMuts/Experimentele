@@ -129,6 +129,9 @@ git push
     - Pseudo-reactieorde NaOH 2/2
     - Correct toepassen formule, rekening houdend met verdunning /1.5
     - Foutenschatting via propagatie /0.5
+## Practicum 7+: *Chemie practicum 2: geen paper*
+    - Geen verslag
+    - TODO: geen punten gekregen
 ## Practicum 8: *Geluidsgolven*
 - **Totaalscore : 10.5/11 -> 9.5/10**
     - Staande golven en kallibratie: 2/2
@@ -148,3 +151,10 @@ git push
     - Filtertype (hoog- en laagdoorlaatfilter) 1/1
     - Analogie met mechanische oscillator 2/2
     - Stijlgids 0.75/1
+## Practicum 10: *Chemie practicum 3: Bufferoplossingen en pH titratie*
+
+## Practicum 11: *Chemie practicum 4: Destillatie en redoxtitratie*
+
+## Practicum 12 + 13: *Geavanceerde proeven: E/M ratio + Michelson interferrometer*
+
+## Practicum 14: *Vrije-proef*
