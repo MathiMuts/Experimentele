@@ -9,11 +9,14 @@ between evaporation events (thought to be an indication of poles). It also creat
 """
 
 import os
+import time
 import numpy as np
 import matplotlib.pyplot as plt
-from numba import cuda
 import warnings
+from numba import cuda
 from numba.core.errors import NumbaPerformanceWarning
+
+startTime = time.perf_counter()
 warnings.simplefilter("ignore", category=NumbaPerformanceWarning)
 
 FILENAME = 'R5069_03581-v03.dat'
@@ -278,4 +281,5 @@ cb.ax.tick_params(labelsize=14)
 f6.savefig(os.path.join(output_dir, "Average_pulses_between_events_bis.png"))
 plt.close(f6)
 
-print(f"All plots have been saved to the directory: {output_dir}")
+endTime = time.perf_counter()
+print(f"All plots have been saved to {output_dir}.\nThe script took {endTime - startTime:.6f} seconds to execute.")
