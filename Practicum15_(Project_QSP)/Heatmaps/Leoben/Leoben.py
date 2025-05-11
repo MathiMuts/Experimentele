@@ -19,4 +19,4 @@ params = {
     "SETDETRATE": 0.002,
 }
 
-process_heatmap(params)
+process_heatmap(params, Cuda=True)
