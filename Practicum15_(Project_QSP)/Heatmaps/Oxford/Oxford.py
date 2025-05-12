@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from Heatmap import process_heatmap
 
 params = {
-    "FILE_PATH": os.path.join(os.path.dirname(__file__), 'Leoben.dat'),
+    "FILE_PATH": os.path.join(os.path.dirname(__file__), 'Oxford.dat'),
     "OUTPUT_DIR":os.path.join(os.path.dirname(__file__), "output_images"),
     "NROFBINS": 100,
     "SI1RNGMIN": 27.6,
