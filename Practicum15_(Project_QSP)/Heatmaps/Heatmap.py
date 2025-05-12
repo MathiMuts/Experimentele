@@ -71,8 +71,8 @@ def process_heatmap(params, Cuda=False):
     Ydtcar = np.array(Ydtc, dtype=float)
     PulseNbar = np.array(PulseNb, dtype=float)
     ElementMass = np.array(ElementMass, dtype=float)
-    Xdtcar = 10 * Xdtcar
-    Ydtcar = 10 * Ydtcar
+    Xdtcar = 1 * Xdtcar # INFO: daar stond maal 10
+    Ydtcar = 1 * Ydtcar
 
     dataParseTijd = time.perf_counter() - tempTime
     print(f"- Parsing the data: {dataParseTijd:.3f}s")
@@ -145,28 +145,27 @@ def process_heatmap(params, Cuda=False):
     NSi3 = np.zeros([NROFBINS, NROFBINS], dtype=np.float32)
 
     rownr = np.digitize(Ydtcar, np.linspace(np.min(Ydtcar), np.max(Ydtcar), NROFBINS))
-    colmnr = np.digitize(Xdtcar, np.linspace(np.min(Xdtcar), np.max(Xdtcar), NROFBINS))
-
-    # GPU kernel for matrix updates
-    threads_per_block = (16, 16)
-    blocks_per_grid_x = (NROFBINS + threads_per_block[0] - 1) // threads_per_block[0]
-    blocks_per_grid_y = (NROFBINS + threads_per_block[1] - 1) // threads_per_block[1]
-    blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
-
-    NpMat_gpu = cuda.to_device(NpMat)
-    NrMat_gpu = cuda.to_device(NrMat)
-    NSi1_gpu = cuda.to_device(NSi1)
-    NSi2_gpu = cuda.to_device(NSi2)
-    NSi3_gpu = cuda.to_device(NSi3)
-
-    rownr_gpu = cuda.to_device(rownr)
-    colmnr_gpu = cuda.to_device(colmnr)
-    Np_gpu = cuda.to_device(Np)
-    ElementMass_gpu = cuda.to_device(ElementMass)
+    colmnr = np.digitize(Xdtcar, np.linspace(np.min(Xdtcar), np.max(Xdtcar), NROFBINS))    
 
 
     if Cuda:
         # ---- GPU matrix update ----
+        # GPU kernel for matrix updates
+        threads_per_block = (16, 16)
+        blocks_per_grid_x = (NROFBINS + threads_per_block[0] - 1) // threads_per_block[0]
+        blocks_per_grid_y = (NROFBINS + threads_per_block[1] - 1) // threads_per_block[1]
+        blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
+
+        NpMat_gpu = cuda.to_device(NpMat)
+        NrMat_gpu = cuda.to_device(NrMat)
+        NSi1_gpu = cuda.to_device(NSi1)
+        NSi2_gpu = cuda.to_device(NSi2)
+        NSi3_gpu = cuda.to_device(NSi3)
+
+        rownr_gpu = cuda.to_device(rownr)
+        colmnr_gpu = cuda.to_device(colmnr)
+        Np_gpu = cuda.to_device(Np)
+        ElementMass_gpu = cuda.to_device(ElementMass)
         @cuda.jit
         def update_matrices(Np, ElementMass, rownr, colmnr, NROFBINS, SI1RNGMIN, SI1RNGMAX, SI2RNGMIN, SI2RNGMAX, SI3RNGMIN, SI3RNGMAX, 
                             NpMat, NrMat, NSi1, NSi2, NSi3):
@@ -227,8 +226,8 @@ def process_heatmap(params, Cuda=False):
     tempTime = time.perf_counter()
 
     '''Plot results'''
-    LIMIT = 190
-    TICKS = [-150, -100, -50, 0, 50, 100, 150]
+    LIMIT = 1.75
+    TICKS = [-1.5, -0.75, 0, 0.75, 1.5]
     # Save the first plot (DEH classic)
     f1 = plt.figure(1)
     plt.hist2d(Xdtcar, Ydtcar, bins=[NROFBINS, NROFBINS], range=np.array([(-LIMIT, LIMIT), (-LIMIT, LIMIT)]))
