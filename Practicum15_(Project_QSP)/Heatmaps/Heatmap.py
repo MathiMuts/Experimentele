@@ -240,7 +240,7 @@ def process_heatmap(params, Cuda=False):
     plt.gca().tick_params(labelsize=13)
     cb = plt.colorbar()
     cb.ax.tick_params(labelsize=14)
-    f1.savefig(os.path.join(OUTPUT_DIR, "DEH_classic.png"))
+    f1.savefig(os.path.join(OUTPUT_DIR, "DEH_classic.png"), dpi=500)
     plt.close(f1)
 
     # Save the second plot (DEH Np filtered)
@@ -255,7 +255,7 @@ def process_heatmap(params, Cuda=False):
     plt.gca().tick_params(labelsize=13)
     cb = plt.colorbar()
     cb.ax.tick_params(labelsize=14)
-    f2.savefig(os.path.join(OUTPUT_DIR, "DEH_Np_filtered.png"))
+    f2.savefig(os.path.join(OUTPUT_DIR, "DEH_Np_filtered.png"), dpi=500)
     plt.close(f2)
 
     # Save the third plot (CSR)
@@ -271,7 +271,7 @@ def process_heatmap(params, Cuda=False):
     plt.gca().tick_params(labelsize=13)
     cb = plt.colorbar()
     cb.ax.tick_params(labelsize=14)
-    f3.savefig(os.path.join(OUTPUT_DIR, "CSR.png"))
+    f3.savefig(os.path.join(OUTPUT_DIR, "CSR.png"), dpi=500)
     plt.close(f3)
 
     # Save the fourth plot (DEH Np filtered NORMALIZED)
@@ -289,7 +289,8 @@ def process_heatmap(params, Cuda=False):
     plt.gca().tick_params(labelsize=13)
     cb = plt.colorbar()
     cb.ax.tick_params(labelsize=14)
-    f4.savefig(os.path.join(OUTPUT_DIR, "DEH_Np_filtered_normalized.png"))
+    f4.savefig(os.path.join(OUTPUT_DIR, "DEH_Np_filtered_normalized.png"), dpi=500)
+    plt.show()
     plt.close(f4)
 
     # Save the fifth plot (Average number between pulses)
@@ -306,7 +307,7 @@ def process_heatmap(params, Cuda=False):
     plt.gca().tick_params(labelsize=13)
     cb = plt.colorbar()
     cb.ax.tick_params(labelsize=14)
-    f5.savefig(os.path.join(OUTPUT_DIR, "Average_pulses_between_events.png"))
+    f5.savefig(os.path.join(OUTPUT_DIR, "Average_pulses_between_events.png"), dpi=500)
     plt.close(f5)
 
     # Save the sixth plot (Average number between pulses bis)
@@ -323,7 +324,7 @@ def process_heatmap(params, Cuda=False):
     plt.gca().tick_params(labelsize=13)
     cb = plt.colorbar()
     cb.ax.tick_params(labelsize=14)
-    f6.savefig(os.path.join(OUTPUT_DIR, "Average_pulses_between_events_bis.png"))
+    f6.savefig(os.path.join(OUTPUT_DIR, "Average_pulses_between_events_bis.png"), dpi=500)
     plt.close(f6)
 
     dataGenImagesTijd = time.perf_counter() - tempTime
