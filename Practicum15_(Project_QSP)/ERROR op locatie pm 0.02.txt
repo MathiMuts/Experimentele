@@ -1,0 +1,24 @@
+ERROR op locatie: pm 0.02
+Oxford:
+center:
+(-0.256,-0.04)
+left-below:
+(-1.0843,-0.7609)
+right-below:
+(-0.4937,-0.8051)
+right-top:
+(0.5074,0.6422)
+left-top:
+(-0.9378,0.7244)
+
+Leoben:
+center:
+(-0.1121,-0.0142)
+left-below:
+(-0.9793,-0.7601)
+right-below:
+(0.6216,-0.8489)
+right-top:
+(0.6287,0.6773)
+left-top:
+(-0.7923,0.7635)
