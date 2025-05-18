@@ -56,26 +56,36 @@ L=3.5
 #
 def icl(th,d,L):
     return(th/np.arctan(d/L))
-
+print("Oxdford ICF's tussen naaste polen")
 print(icl(0.44,ON_CLU,L))
 print(icl(0.44,ON_CRU,L))
 print(icl(0.44,ON_CLT,L))
 print(icl(0.44,ON_CRT,L))
+print("Leoben ICF's tussen naaste polen")
 print(icl(0.44,LN_CLU,L))
 print(icl(0.44,LN_CRU,L))
 print(icl(0.44,LN_CLT,L))
 print(icl(0.44,LN_CRT,L))
-
+print("gemiddeldes:")
+gem_O=(icl(0.44,ON_CLU,L)+icl(0.44,ON_CLT,L)+icl(0.44,ON_CRT,L))/3
+print(gem_O)
+gem_L=(icl(0.44,LN_CLU,L)+icl(0.44,LN_CRU,L)+icl(0.44,LN_CLT,L)+icl(0.44,LN_CRT,L))/4
+print(gem_L)
+stat_O=np.std([icl(0.44,ON_CLU,L),icl(0.44,ON_CLT,L),icl(0.44,ON_CRT,L)])
+stat_L=np.std([icl(0.44,LN_CLU,L),icl(0.44,LN_CRU,L),icl(0.44,LN_CLT,L),icl(0.44,LN_CRT,L)])
+print(stat_O)
+print(stat_L)
 #uncertainty
 def err_f(th,d,L):
     s_d=0.02
     s_L=0.1
     return th*np.sqrt(s_d**2*L**2+s_L**2*d**2)*1/(np.arctan(d/L)*np.sqrt(d**2+L**2))
-
+print("Oxford fouten tussen naaste polen")
 print(err_f(0.44,ON_CLU,L))
 print(err_f(0.44,ON_CRU,L))
 print(err_f(0.44,ON_CLT,L))
 print(err_f(0.44,ON_CRT,L))
+print("Leoben fouten tussen naaste polen")
 print(err_f(0.44,LN_CLU,L))
 print(err_f(0.44,LN_CRU,L))
 print(err_f(0.44,LN_CLT,L))
@@ -95,14 +105,12 @@ L_RTRU=L_RT-L_RU
 L_LURU=L_LU-L_RU
 L_LULT=L_LU-L_LT
 L_LTRU=L_LT-L_RU
-
 NO_RTLT=norm(O_RTLT)
 NO_RTLU=norm(O_RTLU)
 NO_RTRU=norm(O_RTRU)
 NO_LURU=norm(O_LURU)
 NO_LULT=norm(O_LULT)
 NO_LTRU=norm(O_LTRU)
-
 NL_RTLT=norm(L_RTLT)
 NL_RTLU=norm(L_RTLU)
 NL_RTRU=norm(L_RTRU)
@@ -110,13 +118,14 @@ NL_LURU=norm(L_LURU)
 NL_LULT=norm(L_LULT)
 NL_LTRU=norm(L_LTRU)
 
+print("Oxdford ICF's tussen verre polen")
 print(icl(0.61,NO_RTLT,L))
 print(icl(0.88,NO_RTLU,L))
 print(icl(0.61,NO_RTRU,L))
 print(icl(0.61,NO_LURU,L))
 print(icl(0.61,NO_LULT,L))
 print(icl(0.88,NO_LTRU,L))
-
+print("Leoben ICF's tussen verre polen")
 print(icl(0.61,NL_RTLT,L))
 print(icl(0.88,NL_RTLU,L))
 print(icl(0.61,NL_RTRU,L))
