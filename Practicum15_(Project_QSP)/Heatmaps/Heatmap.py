@@ -167,8 +167,7 @@ def process_heatmap(params, Cuda=False):
         Np_gpu = cuda.to_device(Np)
         ElementMass_gpu = cuda.to_device(ElementMass)
         @cuda.jit
-        def update_matrices(Np, ElementMass, rownr, colmnr, NROFBINS, SI1RNGMIN, SI1RNGMAX, SI2RNGMIN, SI2RNGMAX, SI3RNGMIN, SI3RNGMAX, 
-                            NpMat, NrMat, NSi1, NSi2, NSi3):
+        def update_matrices(Np, ElementMass, rownr, colmnr, NROFBINS, SI1RNGMIN, SI1RNGMAX, SI2RNGMIN, SI2RNGMAX, SI3RNGMIN, SI3RNGMAX, NpMat, NrMat, NSi1, NSi2, NSi3):
             i, j = cuda.grid(2)  # Get the 2D thread indices
             if i < NROFBINS and j < NROFBINS:  # Ensure we are within bounds
                 for k in range(len(Np)):  # Iterate over all events
