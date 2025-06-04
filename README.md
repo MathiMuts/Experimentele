@@ -130,8 +130,9 @@ git push
     - Correct toepassen formule, rekening houdend met verdunning /1.5
     - Foutenschatting via propagatie /0.5
 ## Practicum 7+: *Chemie practicum 2: geen paper*
-    - Geen verslag
-    - TODO: geen punten gekregen
+Geen verslag  
+TODO: nog geen punten
+
 ## Practicum 8: *Geluidsgolven*
 - **Totaalscore : 10.5/11 -> 9.5/10**
     - Staande golven en kallibratie: 2/2
@@ -152,9 +153,50 @@ git push
     - Analogie met mechanische oscillator 2/2
     - Stijlgids 0.75/1
 ## Practicum 10: *Chemie practicum 3: Bufferoplossingen en pH titratie*
+TODO: nog geen punten
 
 ## Practicum 11: *Chemie practicum 4: Destillatie en redoxtitratie*
-
+- **Totaalscore : 20/20**
+    - Voorbereiding	 	6/6
+    - Globale reactievergelijking redoxtitratie en molaire verhouding sulfiet/dijood + vergelijking reductiepotentialen 	2/2
+    - Uitleg vigreuxkolom en liebigkoeler   2/2
+    - Formule volumeprocent water uit dichtheid    2/2
+    - Destillatie 		7/7
+    - Dichtheid destillaat + fout		2/2
+    - Procent wateronzuiverheid		1/1
+    - Volume ethanol + fout  + werkwijze    	3/3
+    - Volumeprocent ethanol + fout		1/1
+    - Redox-titratie 		7/7
+    - Waarde + fout op volume en aantal mol titrans (+ relatie tot maatglaswerk en bereidingsprocedure)    	2/2
+    - Molariteit (concentratie) waterstofsulfiet + fout 	2/2
+    - Sulfietgehalte (mg/L) + fout 		2/2
+    - Vergelijking wettelijke limiet  		1/1
 ## Practicum 12 + 13: *Geavanceerde proeven: E/M ratio + Michelson interferrometer*
+**Totaalscore : 18/20**
 
+Geen verslag maar een presentatie:  
+> Dit was zowel een zeer goede presentatie als een zeer goede uitvoering van de experimenten. De enige opmerking voor de presentatie die ik heb is dat je best alle symbolen zorgvuldig definieert, als je over een spanning spreekt, verklaar dan ook waarover deze spanning valt. Verder was er heel duidelijk goed nagedacht over een experiment dat niet werkte (en de gevonden conclusie klopte uiteindelijk ook). Verdere vragen bevestigden een uitstekend inzicht in de uitgevoerde experimenten.
 ## Practicum 14: *Vrije-proef*
+TODO: nog geen punten
+
+## Projectwerk: *Werking en analyse van Atom Probe Tomography*
+**Totaalscore : 18/20**
+
+Geen verslag maar een presentatie:
+> De presentatie was van goede kwaliteit, gestructureerd en wetenschappelijk diepgaand. Een kleine opmerking is dat bij de uitleg in het begin van het werkingsprincipe nog iets visueler kon (de naald van het materiaal onder hoogspanning en dan m.b.v. laser atomen los te werken, hier was een figuur waardevol geweest). Het was wel echt duidelijk dat jullie de techniek begrepen en bij de dataverwerking zeer rigoureus te werk zijn gegaan (wetenschappelijke literatuur meegedeeld en kritisch vergeleken). Ook jullie presentatiestijl komt duidelijk over, met voldoende vertrouwen en met aandacht voor het bevattelijk overbrengen van achtergrond en resultaten. Kortom, sterk wetenschappelijk werk en helder gepresenteerd.
+
+## Samengevat:
+- 17/20
+- 9/10
+- 10/10
+- 19.5/20
+- 7/10
+- 9.5/10
+- 18.5/10
+- ?
+- 9.5/10
+- 9.75/10
+- 20/20
+- 18/20
+- ?
+- 18/20
