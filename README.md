@@ -153,7 +153,26 @@ TODO: nog geen punten
     - Analogie met mechanische oscillator 2/2
     - Stijlgids 0.75/1
 ## Practicum 10: *Chemie practicum 3: Bufferoplossingen en pH titratie*
-TODO: nog geen punten
+- **Totaalscore : 19.5/20**
+    - Voorbereiding 9.25/10 -> 4.5/5
+    - Activiteit en activiteitscoefficient  0.75/1
+    - Afleiding stellingen bufferend vermogen  3/3
+    - Motivatie keuze buffer + berekening 2/2
+    - Verklaring sprong in pH   1.5/2
+    - Uitleg pH meter   2/2
+    - Deel 1: bereiden van buffers 6/6
+        - Kritische reflectie bereidingsmethodes: vermelding gebruikt glaswerk en fouten     1/1
+        - Berekening totale nauwkeurigheid op de bereidde pH en concentraties   	           1.5/1.5
+        - Vergelijking met gemeten pH + verklaring eventuele afwijkingen  1.5/1.5
+        - Bepaling buffercapaciteit adhv twee teststalen met resp. 2 mL NaOH en HCl.        2/2
+    - Deel 2:pH titratie 11.5/12 = 9/9
+        - Plotten titratiecurve in correcte figuur	(conform stijl, eenheden etc.)		2/2
+        - Bepalen equivalentiepunt en fout						1/2
+        - Vergelijking indicatoren: methyloranje vs. fenolftaleine (is normaal de beste)      1/1
+        - Concentraties azijnzuuroplossing in maatkolf en commerciële oplossing + fouten   2/2
+        - Massaprocent azijnzuuroplossing (#g azijnzuur per 100g oplossing) + fout	  2/2
+        - Verklaring plateau in begin omslaggebied met reactievgl			1.5/2
+        - Bepalen van pKa uit de titratiecurve	                                                           1/1
 
 ## Practicum 11: *Chemie practicum 4: Destillatie en redoxtitratie*
 - **Totaalscore : 20/20**
@@ -193,10 +212,12 @@ Geen verslag maar een presentatie:
 - 7/10
 - 9.5/10
 - 18.5/20
-- ?
+- 19.5/20
 - 9.5/10
 - 9.75/10
 - 20/20
 - 18/20
 - ?
 - 18/20
+
+> Vakscore: /20
